@@ -13,21 +13,49 @@ window.onload = function() {
 	
 };
 
-// назначение обработчиков [18.01.2016]
+// назначение обработчиков [22.03.2017]
 ////////////////////////////////////////
 
 $(document).ready(function() {
 
-	$(document).on('click', '.portfolio-add-a', function(event) {
-		
-		event.preventDefault();
-		view.changePage('portfolio_loadfiles');
-	});
+	$(document)
+		.on('click', '.portfolio-add-a', function(event) {
+			event.preventDefault();
+			view.changePage('portfolio_loadfiles');
+		})
+		.on('click', '.portfolio-open-list-btn', function(event) {
+			event.preventDefault();
+			view.changePage('portfolio_view');
+		})
+		.on('click', '.p-file-delete-btn', function(event) {
+			var fnrec = $(this).attr('data-fid');
+			$('#overlay').stop().fadeIn(200);
+			$.ajax({
+				url: 'oracle/database_delete_p_document.php',
+				type: 'POST',
+				data: {persons: getJSON('auth_inf').PERSONS, fnrec: fnrec},
+				success: function() {
+					var data = getJSON('portfolio').filter(function(el) {
+						return el.FNREC != fnrec;
+					});
+					saveValue('portfolio', JSON.stringify(data));
+					$('.portfolio_view_box').html(printPortfolio(data));
+				},
+				error: function() {
+					showTooltip('При загрузке информации, произошла ошибка.', 2000);
+				},
+				complete: function() {
+					$('#overlay').stop().fadeOut(200);
+				}
+			});			
+		});
 
 	window.addEventListener('hashchange', function(event){
 		view.loadPage();
 	});
 		
+
+
 	
 //  GUI расписания [18.01.2016]
 //////////////////////////////////////////////////////////////////////////////////////////////

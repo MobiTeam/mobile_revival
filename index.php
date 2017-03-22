@@ -264,6 +264,7 @@
 						</div>
 						<div class="portfolio-form-group">
 							<input type="submit" class="contr_shadow portfolio-load-btn" value="Сохранить">
+							<input type="button" class="contr_shadow portfolio-open-list-btn" value="Просмотр загруженных документов">
 						</div>
 					</form>
 				</div>

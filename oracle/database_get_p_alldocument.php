@@ -4,11 +4,8 @@
     require('database_connect_PDO.php');
     require_once('../auth/ad_functions.php');
     modifyPost();
-    if(isset($_SESSION['persons'])){
-        $persons = $_SESSION['persons'];
-    } else {
-        $persons = $_POST['persons'];
-    }
+    $persons = $_POST['persons'];
+
     // $persons = '75e4190cf4676e63f278b741aeb3ca91fb669a22';
 
     // Получаем все разделы

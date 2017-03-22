@@ -325,14 +325,13 @@ b, strong {
 	margin:0 auto;
 }
 
-.authorisation_box_input, .timetable_box_input, .settings_box_button_save, .formInformationInput, .portfolio-load-btn {
+.authorisation_box_input, .timetable_box_input, .settings_box_button_save, .formInformationInput, .portfolio-load-btn, .portfolio-open-list-btn {
 	width:80%;
 	display:block;
 	max-width:300px;
 	height:38px;
 	margin:15px auto;
 	padding:0px 10px;
-	
 }
 
 .settings_box_button_save{
@@ -357,7 +356,7 @@ b, strong {
 	font-style:italic;
 }
 
-.authorisation_box_submit, .abit_detail_btn, .authorisation_box_abit, .authorisation_box_button, .timetable_box_submit, .settings_box_button_save, .portfolio-load-btn, .sendInfoButton, .infoSubmBtn{
+.authorisation_box_submit, .abit_detail_btn, .authorisation_box_abit, .authorisation_box_button, .timetable_box_submit, .settings_box_button_save, .portfolio-load-btn, .portfolio-open-list-btn, .sendInfoButton, .infoSubmBtn{
 	width:180px;
 	height:36px;
 	display:block;
@@ -365,12 +364,25 @@ b, strong {
 	font-family: "RobotoRegular", sans-serif;
 }
 
+.portfolio-open-list-btn {
+	width:300px;
+}
+
 .timetable_box_submit{
 	width:100px;
 }
 
-.portfolio-load-btn {
+.portfolio-load-btn, .portfolio-open-list-btn {
 	cursor: pointer;
+	color: white;
+}
+
+.portfolio-open-list-btn {
+	background: #01bf69;
+}
+
+.portfolio-open-list-btn:active {
+	background: #019c56;
 }
 
 .authorisation_box_submit, .timetable_box_submit{
@@ -2068,3 +2080,14 @@ If you like this solution, you might also want to check out the 1.0 version:
     padding: 1em;
   }
 }
+
+.p-file-delete-btn {
+	padding: 6px 10px;
+	color: white;
+	cursor: pointer;
+	background: #ff5b5b;
+}
+
+.p-file-delete-btn:active {
+	background: #ff3434;
+} 

@@ -335,6 +335,7 @@ function loadPortfolioViewBlock() {
 		data: {persons: getJSON('auth_inf').PERSONS},
 		success: function(data) {
 			var clData = JSON.parse(clearUTF8(data));
+			saveValue('portfolio', JSON.stringify(clData));
 			$('.portfolio_view_box').html(printPortfolio(clData));
 		},
 		error: function() {
@@ -358,15 +359,16 @@ function printPortfolio(data) {
 								<th>Тип документа</th>\
 								<th>Год</th>\
 								<th>Файл</th>\
+								<th></th>\
 							</tr>\
 						</thead>";
-	console.log(data);
 	for (var i = 0; i < data.length; i++) {
 		output += "<tr>\
 						<td>" + data[i].FNAMESECTION + "</td>\
 						<td>" + data[i].FNAMETYPEDOC + "</td>\
 						<td>" + data[i].FYEAR + "</td>\
 						<td><a target='blank' href='" + data[i].FURLFILE + "'>" + data[i].FNAMEFILE + "</a></td>\
+						<td><button class='p-file-delete-btn' data-fid='" + data[i].FNREC + "'>Удалить</button></td>\
 					</tr>";
 	}
 	return output + "</tbody></table>";

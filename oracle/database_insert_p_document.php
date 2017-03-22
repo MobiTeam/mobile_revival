@@ -5,12 +5,7 @@
         require_once('../auth/ad_functions.php');
 
         modifyPost();
-        // userAutentificate();
-        if(isset($_SESSION['persons'])){
-            $persons = $_SESSION['persons'];
-        } else {
-            $persons = $_POST['persons'];
-        }
+        $persons = $_POST['persons'];
 
         // $persons = '75e4190cf4676e63f278b741aeb3ca91fb669a22';
         // Принимаем параметры
@@ -56,6 +51,7 @@
 		$query->execute(array('fyear' => $fYear,'fperson' => $persons,'fsection' => $fSection,
                             'ftypedoc' => $fTypeDoc,'urlfile' => "/files/portfolio/".$persons."/".$fileName,'namefile' => $fNameDoc));
 
+        @$conn=null;                    
         header('HTTP/1.1 200 OK');
         exit;
 
