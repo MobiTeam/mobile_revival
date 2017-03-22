@@ -1,0 +1,319 @@
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .menu_button { 
+	   background-image: url('../img/menu_button@2x.png');
+	   background-size: 24px 24px;
+   }
+   
+   .arr_button { 
+	   background-image: url('../img/backicon@2x.png');
+	   background-size: 24px 24px;
+   }
+   
+   
+   .header_line_content_search { 
+	   background-image: url('../img/search_icon@2x.png');
+	   background-size: 24px 24px;
+   }
+
+   .header_line_content_helper { 
+	   background-image: url('../img/helper_icon@2x.png');
+	   background-size: 24px 24px;
+   }
+   
+   .header_line_content_settings{
+       background-image: url('../img/settings_icon@2x.png');
+	   background-size: 24px 24px;
+	}
+
+	.person_info_box_menu_alsitem:before{
+		background: url('../img/record_book@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.person_info_box_menu_loaditem:before{
+		background: url('../img/load_icon@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.person_info_box_menu_holiday:before{
+		background: url("../img/holidays_icon@2x.png") no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.fin_info_box_menu_mans:before{
+		background: url('../img/mans@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.person_info_box_menu_appitem:before{
+		background: url('../img/info_person@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+	
+	.person_info_box_menu_session:before{
+		background: url("../img/books_icon@2x.png") no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.person_info_box_menu_map:before{
+		background: url("../img/location@2x.png") no-repeat center center;
+		background-size: 40px 40px;
+	}
+	.fin_info_box_menu_city:before{
+		background: url("../img/city@2x.png") no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.fin_info_box_menu_dorm:before {
+		background: url("../img/dormitory@2x.png") no-repeat center center;
+		background-size: 40px 40px;
+	}
+	
+	.fin_info_box_menu_city:before {
+	background: url("../img/city@2x.png") no-repeat center center;
+	background-size: 40px 40px;
+	}
+	
+	.found_by_sel_text::before {
+		background: blue url('../img/user_img@2x.png') no-repeat center center;
+		background-size: 16px 16px;
+
+	}
+
+	.rate_box_img {
+		background: url('../img/agree_icon@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}	
+
+	.adding_menu_button {
+		background: url('../img/plus-circle@2x.png') center center no-repeat;
+		background-size: 80px 80px;		
+	}
+
+	.opened_input{
+		background: url('../img/close_white@2x.png');
+		background-size: 24px 24px;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+
+	.abit_btn_icon {
+	    background: url('../img/schoolboy-carrying-a-bag@2x.png');
+		background-size: 32px 32px;	
+	}	
+
+	.news_box_exit_button{
+		background-size: 24px 24px!important;
+		background-position: center center!important;
+		background-repeat: no-repeat!important;
+		background:url('../img/close-circle@2x.png');		
+	}
+	
+	.previos_info_circle{
+	   background-image: url('../img/student_hat@2x.jpg');
+	   background-size: 110px 82px;
+	}
+	
+	.loading{
+		background: url('../img/pre_animation@2x.gif') no-repeat center center,
+					/* url('../img/preloader_2.jpg') no-repeat bottom center, */
+					#058ae6;
+		background-size: 64px 64px;
+	}
+
+	.fin_info_box_menu_rateitem:before {
+		background: url("../img/rate_icon@2x.png");
+		background-size: 40px 40px;
+	}
+	
+
+	.main_calendar_icon {
+		background: url('../img/schedule_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_news_icon {
+		background: url('../img/newspaper_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_lib_icon {
+		background: url('../img/lib_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_file_icon {
+		background: url('../img/files-res@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_group_icon {
+		background: url('../img/students_group_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_person_icon {
+		background: url('../img/person_hi_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_portfolio_icon {
+		background: url('../img/portfolio_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_rouble_icon {
+		background: url('../img/rouble_hi_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_directory_icon {
+		background: url('../img/directory_hi_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_coffe_icon {
+		background: url('../img/coffe_hi_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+	.main_info_icon {
+		background: url('../img/info_hi_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
+
+	.fin_info_box_menu_incomeitem:before {
+		background: url("../img/incomes_icon@2x.png");
+		background-size: 40px 40px;
+	}
+
+	.previos_info_circle{
+		background-image: url('../img/stud_hat@2x.png');
+		background-repeat:no-repeat;
+		background-size: 128px 128px;
+		background-position:center center;
+	}
+
+	.person_contacts_img {
+		background: url('../img/person_guide-icon@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+	
+	.authorisation_box_logo{
+		background:url('../img/ugrasu_logo@2x.png') no-repeat;
+		background-size:cover;
+	}
+	
+	.sidebar_menu_block_back_arr{
+		background:url('../img/arrow_black@2x.png');
+		background-size: 24px 24px;
+	}
+	
+	.main_item{
+		background:url('../img/home_icon@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.pers_item{
+		background:url('../img/person_icon@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.set_item{
+		background:url('../img/settings_icon_bl@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.mes_item{
+		background:url('../img/message_icon_bl@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.close_item{
+		background:url('../img/close_icon@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.news_item{
+		background:url('../img/news_icon_bl@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.about_item{
+		background:url('../img/new_icon/mini_icon/info@2x.png') no-repeat left center;	
+		background-size: 24px 24px;
+	}
+
+	.timetable_item{
+		background:url('../img/time_icon@2x.png') no-repeat left center;
+		background-size: 24px 24px;
+	}
+
+	.persinf_item{
+	background:url('../img/new_icon/mini_icon/personal@2x.png') no-repeat left center;
+	background-size: 24px 24px;	
+	}
+
+	.finance_item{
+	background:url('../img/new_icon/mini_icon/finance@2x.png') no-repeat left center;
+	background-size: 24px 24px;	
+	}
+
+	.group_item{
+	background:url('../img/new_icon/mini_icon/group@2x.png') no-repeat left center;	
+	background-size: 24px 24px;
+	}
+
+	.guide_item{
+	background:url('../img/new_icon/mini_icon/guide@2x.png') no-repeat left center;		
+	background-size: 24px 24px;
+	}
+
+	.message_item{
+	background:url('../img/new_icon/mini_icon/message@2x.png') no-repeat left center;		
+	background-size: 24px 24px;	
+	}	
+
+	.coffee_item{
+	background:('../img/new_icon/mini_icon/coffee@2x.png') no-repeat left center;
+	background-size: 24px 24px;	
+	}
+	
+	.menu_box_logo{
+		background-size:100px 100px;
+	}
+	
+	.header_line_content_calendar {
+		background:url('../img/calendar@2x.png') no-repeat center center;
+		background-size: 24px 24px;
+	}
+	
+	.date_item_back {
+		background: url('../img/back_bt@2x.png');
+		background-repeat: no-repeat;
+		background-size: 24px 24px;
+	}
+
+	.date_item_next {
+		background: url('../img/forw_bt@2x.png');
+		background-repeat: no-repeat;
+		background-size: 24px 24px;
+	}
+
+	.man_student:after {
+		background: url('../img/man_icon@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.girl_student:after {
+		background: url('../img/woman_icon@2x.png') no-repeat center center;
+		background-size: 40px 40px;
+	}
+
+	.alert_message:before {
+		background: url('../img/alert_icon@2x.png');
+		background-size: 32px 32px;
+	}
+}
+

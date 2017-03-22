@@ -1,0 +1,18 @@
+.previos_info_circle {
+	display:inline-block;
+	vertical-align: middle;
+	margin:0px 10px;
+}
+
+.previous_info_text {
+	vertical-align: middle;
+}
+
+.date_item{
+	padding:4px 3%;
+}
+
+.full_sentense{
+	display:inline;
+}
+
