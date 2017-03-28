@@ -25,7 +25,7 @@
             exit;
         }
         // Проверяем расширение файла
-        $availExt = ['jpg', 'jpeg', 'png', 'bmp', 'pdf', 'doc', 'docx', 'xsl', 'xslx'];
+        $availExt = ['jpg', 'jpeg', 'png', 'bmp', 'pdf', 'doc', 'docx', 'xsl', 'xslx', 'rtf', 'JPG', 'JPEG', 'PNG', 'BMP', 'PDF', 'DOC', 'DOCX', 'XSL', 'XSLX', 'RTF'];
         $fileName = $_FILES['p_document_file']['name'];
         $ext = pathinfo($fileName, PATHINFO_EXTENSION);
         if(!in_array($ext,$availExt) ) {
@@ -42,7 +42,7 @@
         }
         // Загружаем файл
         $tmpFile = $_FILES["p_document_file"]["tmp_name"];
-        $fileName = date('H.i').'_'.translit($fileName);
+        $fileName = date('H.i').'_'.str_replace(' ' ,'_', translit($fileName));
         move_uploaded_file($tmpFile, "$dir/$fileName");
 
         $query=$conn->prepare("Insert into P_DOCUMENTS
@@ -51,7 +51,7 @@
 		$query->execute(array('fyear' => $fYear,'fperson' => $persons,'fsection' => $fSection,
                             'ftypedoc' => $fTypeDoc,'urlfile' => "/files/portfolio/".$persons."/".$fileName,'namefile' => $fNameDoc));
 
-        @$conn=null;                    
+        @$conn=null;
         header('HTTP/1.1 200 OK');
         exit;
 
