@@ -446,14 +446,18 @@ $(document).ready(function() {
 		var id = getJSON('auth_inf').id;
 		var default_query = $('.default_query_inp').attr('default_query');
 		var formular = $('.formular_num_inp').val();
+		var phone = $('.user_phone').val();
+		var email = $('.user_mail').val();
 
+		saveValue('email', email);
+		saveValue('phone', phone);
 		saveValue("settingsCode", parseInt(codeSetString, 2));
 		saveValue("subgroup", $('.select_subgroup').val());
 		saveValue("default_query", default_query);
 		saveValue("formular", formular);
 		saveValue('timetable', "undefined");
 
-		myajax(true, 'POST', 'oracle/database_set_settings.php', {formular_id: formular, code: getValue("settingsCode"), subgrp: $('.select_subgroup').val() , id_user: id, def_query: default_query}, true); 
+		myajax(true, 'POST', 'oracle/database_set_settings.php', {phone: phone, email: email, formular_id: formular, code: getValue("settingsCode"), subgrp: $('.select_subgroup').val() , id_user: id, def_query: default_query}, true); 
 		
 	})
 

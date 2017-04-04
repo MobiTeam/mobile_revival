@@ -1833,7 +1833,7 @@ b, strong {
 	margin: 5px;
 }	
 
-.default_query_inp, .formular_num_inp {
+.default_query_inp, .formular_num_inp, .user_mail, .user_phone {
 	border: 1px solid #E6E6E6;
 	margin: 5px;
 	padding: 5px;

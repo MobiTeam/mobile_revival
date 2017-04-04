@@ -166,6 +166,9 @@ if(isset($_POST['login'])) {
 
 		}
 
+		// проверка на пользователя, если нет в галактике, то возвращать ошибку.
+		// if ($data_user['FIO'])
+
    	//ЗАНОСИМ ДАННЫЕ В СЕССИЮ
 
 	   $data_user['hash'] = strrev(sha1(strrev(md5(strrev($data_user['FIO'])))));
@@ -201,12 +204,14 @@ if(isset($_POST['login'])) {
 	if(isset($id_user)) {
 
 
-	    $stmt=$conn->prepare("select CODE_SETTINGS, USER_SUBGROUP, DEFAULT_TMTB_QUERY, FORMULAR_ID from SETTINGS where ID_USER = :id_user");
+	    $stmt=$conn->prepare("select * from SETTINGS where ID_USER = :id_user");
 		$stmt->execute(array('id_user' => $id_user));
 
 
 		while($row=$stmt->fetch()) {
 				$data_user['settings'] = $row['CODE_SETTINGS'];
+				$data_user['email'] = $row['EMAIL'];
+				$data_user['phone'] = $row['PHONE'];
 				$data_user['subgroup'] = $row['USER_SUBGROUP'];
 				$data_user['default_query'] = $row['DEFAULT_TMTB_QUERY'];
 				$data_user['formular_id'] = $row['FORMULAR_ID'] != null ? $row['FORMULAR_ID'] : "";

@@ -6,24 +6,28 @@
     modifyPost();
 	
 	 $ID=$_POST['id_user'];
+	 $phone = $_POST['phone'];
+	 $email = $_POST['email'];
 	 $Code=$_POST['code'];
 	 $SUB = $_POST['subgrp'];
 	 $QUERY = $_POST['def_query'];
 	 $FORMULAR = $_POST['formular_id'];	
 
-	 foreach($_POST as $value){
-	 	if(!valParametr($value)){
-	 		die("Передано недопустимое значение.");
-	 	}
-	 }
+	 // foreach($_POST as $value){
+	 // 	if(!valParametr($value)){
+	 // 		die("Передано недопустимое значение.");
+	 // 	}
+	 // }
 
 	$stmt=$conn->prepare("update SETTINGS set 
-				CODE_SETTINGS=:code,
+				CODE_SETTINGS= :code,
 				USER_SUBGROUP = :SUB,
 				DEFAULT_TMTB_QUERY = :QUERY,
-				FORMULAR_ID = :FORMULAR
+				FORMULAR_ID = :FORMULAR,
+				EMAIL = :EMAIL,
+				PHONE = :PHONE
 				WHERE ID_USER=:id");
 
-	$stmt->execute(array('code' => $Code,'id' => $ID,'SUB' => $SUB,'QUERY' => $QUERY,'FORMULAR' => $FORMULAR));
+	$stmt->execute(array('code' => $Code,'id' => $ID,'SUB' => $SUB,'QUERY' => $QUERY,'FORMULAR' => $FORMULAR, 'PHONE' => $phone, 'EMAIL' => $email));
  @$conn=null;
 ?>

@@ -217,7 +217,7 @@
 					<div class="person_box_menu_load hiddenInfBlock">Загрузка..</div>
 					<div class="fin_info_box_menu_item  person_info_box_menu_holiday unselected notStud" onclick="toogleShowBlock('person_box_menu_hol','hol_stat');">Запланированный отпуск<br><span class="fin_info_box_menu_item_stat hol_stat">развернуть</span></div>
 					<div class="person_box_menu_hol hiddenInfBlock">Загрузка...</div>
-					<div class="fin_info_box_menu_item person_info_box_menu_alsitem unselected forStud" onclick="toogleShowBlock('person_box_menu_als', 'income_stat');">Зачетная книжка<br><span class='fin_info_box_menu_item_stat income_stat'>развернуть</span></div>
+					<div class="fin_info_box_menu_item person_info_box_menu_alsitem unselected forStud" onclick="toogleShowBlock('person_box_menu_als', 'income_stat');">Уровень успеваемости<br><span class='fin_info_box_menu_item_stat income_stat'>развернуть</span></div>
 					<div class="person_box_menu_als hiddenInfBlock">Загрузка..</div>
 					<div class="fin_info_box_menu_item person_info_box_menu_session unselected forStud" onclick="toogleShowBlock('person_box_menu_ses', 'curr_session');">Текущая сессия<br><span class='fin_info_box_menu_item_stat curr_session'>развернуть</span></div>
 					<div class="person_box_menu_ses hiddenInfBlock">Загрузка..</div>
@@ -321,7 +321,7 @@
 					<div class="about_info_box_text contr_shadow">
 					<div class="authorisation_box_logo" style="margin:16px auto 26px;"></div>
 
-					<p><b>mob.ugrasu.ru</b> <span class='about_span'>(ver 1.0 alpha)</span> - Мобильный образовательный портал студентов Югорского Государственного университета.</p>
+					<p><b>mops.ugrasu.ru</b> <span class='about_span'>(ver 1.0 alpha)</span> - Мобильный образовательный портал студентов Югорского Государственного университета.</p>
 					<p>Данный портал создан с целью упрощения доступа студентов к информации из корпоративной сети университета.</p>
 					<p>С помощью данного портала Вы с легкостью можете заполнить портфолио, а также посмотреть расписание занятий, новости с сайта университета,
 					персональную информацию, такую как - список группы, успеваемость, назначение, финансовую информацию и пр.</p>
