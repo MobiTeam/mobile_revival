@@ -15,6 +15,8 @@ if(isset($_POST['login'])) {
 	require_once('auth/ad_functions.php');
 	require_once('auth/connecting_user.php');
 	require_once('oracle/database_connect_PDO.php');
+	require_once('phpseclib/Crypt/RSA.php');
+	require_once('phpseclib/Math/BigInteger.php');
 
 	// проверка на bruteforce
 	$stmt=$conn->prepare("select 30 - (TO_CHAR(sysdate,'sssss') - TO_CHAR(DATE_INPUT,'sssss')) as LAST_TRYING
@@ -210,8 +212,8 @@ if(isset($_POST['login'])) {
 
 		while($row=$stmt->fetch()) {
 				$data_user['settings'] = $row['CODE_SETTINGS'];
-				$data_user['email'] = $row['EMAIL'];
-				$data_user['phone'] = $row['PHONE'];
+				$data_user['email']  = $row['EMAIL'];
+				$data_user['phone']   = $row['PHONE'];
 				$data_user['subgroup'] = $row['USER_SUBGROUP'];
 				$data_user['default_query'] = $row['DEFAULT_TMTB_QUERY'];
 				$data_user['formular_id'] = $row['FORMULAR_ID'] != null ? $row['FORMULAR_ID'] : "";
@@ -223,6 +225,14 @@ if(isset($_POST['login'])) {
 		$stmt->execute(array('LOGINa' => $_POST['login'],'IP_ADRESSa' => $_SERVER["REMOTE_ADDR"]));
 
 	}
+
+	$key_file = file_get_contents('RSA/super_mega_key_file_top_secret_in_the_world.pem');
+
+	$rsa = new Crypt_RSA();
+	$rsa->loadKey($key_file);
+
+	$data_user['m1'] = urlencode(chunk_split(base64_encode($rsa->encrypt($clearLogin))));
+	$data_user['m2'] = urlencode(chunk_split(base64_encode($rsa->encrypt($_POST['password']))));
 
 	print_r(utf8_json_encode($data_user));
 

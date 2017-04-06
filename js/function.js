@@ -1295,9 +1295,10 @@ function parseBookInfo(info, cnt){
 }
 
 
-function loadFileIframe(){
+function loadFileIframe() {
+	var par = getJSON('auth_inf');	
 	view.$file_box.html('<iframe id="fileFrame" style="width:100%;height:' + document.body.clientHeight + "px" + ';" />');
-    $('#fileFrame').attr('src', 'http://lir.ugrasu.ru/index_short.php');
+    $('#fileFrame').attr('src', 'https://lir.ugrasu.ru/index_short.php/auth?username=' + par.m1 + '&password=' + par.m2);
     $('#fileFrame').load(function()
     {
       clBl();
@@ -1339,8 +1340,6 @@ function loadDetailsBySpecialities(nrecs) {
 }
 
 function showAbitDetails(details) {
-
-	console.log(details);
 
 	$('.abit_details_results').remove();
 
