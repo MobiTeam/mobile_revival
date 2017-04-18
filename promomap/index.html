@@ -1,0 +1,1295 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IT-Forum 2016</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+	<style>
+
+		/* one problem - this don't work in safari */
+
+		#findedPath {
+			fill: none;
+			stroke: rgb(232,95,76);
+			stroke-width: 2px;
+			animation: dash 1s linear forwards;
+		}
+
+		@keyframes dash {
+		  to {
+		    stroke-dashoffset: 0;
+		  }
+		}
+
+		p {
+			padding: 5px;
+		}
+
+		text {
+			fill: brown!important;
+			font-family: 'Roboto', sans-serif;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			user-select: none;
+			cursor: pointer;
+		}
+
+		html, body {
+			background: #FAFAF0;
+			min-height: 100%;
+		}
+
+		.previmg {
+			width: 120px;
+			height: 120px;
+			float: left;
+			margin: 5px 5px 10px 5px;
+		}
+		.another_content {
+			max-height: 500px;
+			overflow-y: scroll;
+			text-align: justify;
+			padding-right: 15px;
+			text-indent: 10px;
+		}
+
+		.another_content h4 {
+			text-align: center;
+		}
+
+		rect, polygon, .activePath {
+			opacity: 0.75!important;
+			cursor: pointer!important;
+		}
+
+		rect:hover, polygon:hover, .activePath:hover {
+			opacity: 0.85!important;			
+		}
+
+		rect:active, polygon:active, .activePath:active {
+			opacity: 1!important;
+		}
+
+		.stroke {
+			stroke: grey;
+			stroke-width: 0.3;
+		}
+
+		.selectBox, .informationBox {
+			width: 460px;
+			text-align: center;
+			background: #FAFAEB;
+			padding: 0px 0px 5px;
+			border-radius: 5px;
+			font-family: 'Roboto', sans-serif;
+			position: fixed;
+			right: 16px;
+			-webkit-box-shadow: -1px 1px 18px -4px rgba(0,0,0,0.55);
+			-moz-box-shadow: -1px 1px 18px -4px rgba(0,0,0,0.55);
+			box-shadow: -1px 1px 18px -4px rgba(0,0,0,0.55);
+		}
+
+		.informationBox {
+			top: 250px;
+		}
+
+		.selectBoxHeader, .informationBoxHeader {
+			background: #FFECB3;
+			border-radius: 5px 5px 0px 0px;
+			padding: 6px;
+			font-size: 18px;
+			border-bottom: 1px solid #FFD861;
+		}
+
+		.selectBoxHeader_icon, .informationBoxHeader_icon {
+			height: 16px;
+			width: 32px;
+			background: url('show-hide-icon.png');
+			float: right;
+			margin-top: 4px;
+			opacity: 0.7;
+			cursor: pointer;
+			background-repeat: no-repeat;
+		}
+
+		.openedIcon {
+			background-position: 0px -17px;
+		}
+
+		.openedInfIcon {
+			background-position: 0px -17px;
+		}
+
+		.selectBoxHeader_icon:hover {
+			opacity: 0.8;
+		}
+
+		.selectBoxHeader_icon:active {
+			opacity: 1;
+		}
+
+		.innerWrapper {
+			padding: 5px;
+		}
+
+		.selectFrom, .selectTo {
+			font-family: 'Roboto', sans-serif;
+			padding: 2px;
+			font-size: 14px;
+			margin-left: -4px;
+		}
+
+		.fromText, .toText {
+			font-size: 16px;
+			padding: 4px;
+			display: block;
+			text-align: left;
+		}
+
+		.toText:before, .fromText:before {
+			content: '';
+			display: block;
+			width: 32px;
+			height: 32px;			
+			float: left;
+		}
+
+		.toText:before {
+			background: url('locator-b.png');
+			background-size: 32px 32px;
+		}
+
+		.fromText:before {
+			background: url('locator-a.png');
+			background-size: 32px 32px;
+		}
+
+		.createPathButton {
+			padding: 5px;
+			font-size: 16px;
+		}
+
+		.distanseBlock {
+			text-align: left;
+		    padding-left: 5px;
+		    color: grey;
+		}
+
+		ul li {
+			margin-top: 7px;
+			margin-bottom: 7px;
+		}
+		a.createPathButton {
+		  color: #fff; /* цвет текста */
+		  text-decoration: none; /* убирать подчёркивание у ссылок */
+		  user-select: none; /* убирать выделение текста */
+		  background: rgb(212,75,56); /* фон кнопки */
+		  padding: 0.5em 0em;
+		  outline: none; /* убирать контур в Mozilla */
+		  display: block;
+   		  width: 80%;
+   		  margin: 0 auto;
+   		  margin-top: 10px;
+   		  transition: background-color 0.3s ease;
+   		  -webkit-transition: background-color 0.3s ease;
+	      -moz-transition: background-color 0.3s ease;
+	      -o-transition: background-color 0.3s ease;
+		} 
+		a.createPathButton:hover { background: rgb(232,95,76); } /* при наведении курсора мышки */
+		a.createPathButton:active { background: rgb(152,15,0); } /* при нажатии */
+
+	</style>	
+
+	<div class='selectBox' style='display:none;'>
+
+		<div class='selectBoxHeader'>
+			Поиск маршрута
+			<div class='selectBoxHeader_icon openedIcon'></div>			
+		</div>
+		<div class='innerWrapper'>
+			<span class='fromText'>Начальное положение:</span>
+			<select class="selectFrom">
+				
+			</select>
+			
+			<span class='toText'>Конечное положение:</span>
+			
+			<select class="selectTo">
+				
+			</select>
+
+			<div class='distanseBlock'>
+				<img src="road-with-two-placeholders.png">
+				<span style='vertical-align: super;'>Расстояние: <span class='calcDist'></span></span>
+			</div>
+			<a class='createPathButton' href="#">Построить маршрут</a>
+		</div>
+	</div>
+
+	<div class='informationBox'>
+		
+		<div class='informationBoxHeader'>
+			Информация
+			<div class='informationBoxHeader_icon openedInfIcon'></div>		
+		</div>
+
+		<div class="innerWrapper">
+			
+		</div>
+	</div>
+
+	<svg id="technopark_map" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 814.666687 371.0666809" >
+
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#CCCCCC;}
+	.st2{fill:#ECEBEB;}
+	.st3{fill:#C2C3C3;}
+	.st4{fill:#9E9BCC;}
+	.st5{fill:#ECDA4B;}
+	.st6{fill:#C2DDB7;}
+	.st7{fill:#D6D1E9;}
+	.st8{fill:#ECB9BB;}
+	.st9{fill:#4C4746;stroke:#5BA360;stroke-miterlimit:10;}
+	.st10{fill:#F3D6AA;}
+	.st11{fill:#BCD8EB;}
+	.st12{fill:#BDCF52;}
+	.st13{fill:#1A1A1B;}
+	.st14{fill:#F5F5CB;}
+	.st15{fill:none;}
+	.st16{fill:none;stroke:#B44F45;stroke-miterlimit:10;}
+	.st17{fill:#9CC3A8;}
+	.st18{fill:#C5C1E0;}
+	.st19{fill:#D24A45;}
+	.st21{font-size:11px;}
+	.st22{font-size:8px;}
+	.st23{font-size:14px;}
+	.st24{font-size:9px;}
+	.st25{font-size:10px;}
+	.st26{font-size:24px;}
+	.st27{font-size:6px;}
+	.st28{font-size:5px;}
+	.st29{font-size:3px;}
+	.st30{font-size:4px;}
+	.st31{font-size:7px;}
+	.st32{font-size:3.5px;}
+	.st33{font-size:12px;}
+	.st34{font-size:5.5px;}
+	.st35{font-size:4.5px;}
+	.st36{font-size:5.5999999px;}
+	.st37{font-size:3.8px;}
+	.st38{fill:#505AA0;}
+
+	.st19 {
+		display: none;
+	}
+
+	.st38 {
+		display:none;
+	}
+</style>
+<switch>
+
+	<g>
+		<!-- ОБЛАСТИ -->
+		<rect fill="#FAFAF0" stroke="#FAFAF0" stroke-width="4" stroke-miterlimit="10" width="808.89502" height="371.06668"/>
+				
+		<polyline fill="#FFFFFF" points="5.85762,202.25 15,202.25 14.75,49.66667 265,48.22696 264.91666,39.66667 295.66666,39.29167 
+			295.70834,47.49681 473.41666,46.99681 473.24881,38.87495 502.75,38.79167 502.75,46.0603 502.75,47.73197 566.41669,48.91667 
+			566.41669,112.98554 583.36121,112.98554 583.36121,84.22696 621.41669,83.97696 621.41669,40.10196 646.70605,40.10196 
+			646.70605,84.72696 761.02051,84.72696 761.02051,118.30069 795.91669,118.30069 795.91669,283.3103 753.27704,283.3103 
+			753.27704,331.60196 651.625,331.60196 651.62671,326.26895 633.79321,326.26895 633.79321,328.93198 505.58334,328.93198 
+			505.58334,337.4353 448.36417,337.4353 448.4762,324.96271 77.74957,325.43515 76.66683,331.62466 9.5,331.25775"/>
+
+		<rect data-info-id="87" class='stroke' x="543.41669" y="270.41666" fill="#B8DEB7" width="88.16666" height="52.16667"/> 
+
+		<rect class='stroke' x="138.625" y="179.33333" fill="#ECECEC" width="266.5625" height="17"/>
+		<rect x="535.875" y="62.66667" fill="#C4C4C4" width="29.25" height="58.875"/>
+		<polygon data-info-id="6" fill="#A19DCF" points="88.83002,104.99668 88.83002,121.49668 80.83002,121.49668 80.83002,171.16667 21,171.16667 
+			21,49.66667 80.83002,49.66667 80.83002,104.99668 		"/>
+		
+		<rect data-info-id="1" class="stroke" x="362.57248" y="270.16666" fill="#F3DC3A" width="85" height="50"/>
+		
+		<rect class="stroke" x="502.83334" y="270.41666" fill="#B8DEB7" width="38.6" height="52.16667"/>
+		
+		<rect data-info-id="3" class="stroke" x="312.5" y="204.5" fill="#D9D3EB" width="90.83334" height="49.83333"/>
+		
+		<rect data-info-id="5" class='stroke' x="122" y="204" fill="#D9D3EB" width="82.83334" height="50"></rect>
+		
+		<rect data-info-id="4" class='stroke' x="221.08333" y="203.83333" fill="#FDBABD" width="75.16666" height="50"/>
+		
+		<rect data-info-id="88" x="544.08331" y="203.66667" fill="#FED7AA" width="49.91667" height="50.58333"/>
+		
+		<rect data-info-id="79" x="610.16669" y="237.25" fill="#FED7AA" width="33.66667" height="17"/>
+		
+		<rect data-info-id="78" x="643.83331" y="220.58333" fill="#FED7AA" width="16.75" height="33.66667"/>
+		
+		<rect data-info-id="81" x="627" y="204.25" fill="#FED7AA" width="33.58333" height="16.33333"/>
+		
+		<rect data-info-id="80" x="610.16669" y="204.25" fill="#FED7AA" width="16.83333" height="33"/>
+		
+		<rect data-info-id="74" x="676.75" y="237.41667" fill="#FED7AA" width="32.93748" height="16.83333"/>
+		
+		<rect data-info-id="75" x="709.6875" y="220.58333" fill="#FED7AA" width="16.75" height="33.66667"/>
+		
+		<rect data-info-id="76" x="693.21875" y="204.25" fill="#FED7AA" width="33.21873" height="16.33333"/>
+		
+		<rect data-info-id="77" x="676.75" y="204.25" fill="#FED7AA" width="16.46875" height="33.16667"/>
+		
+		<rect data-info-id="56" x="751" y="245.41667" fill="#B8DEB7" width="41.58333" height="33.33333"/>
+		
+		<rect data-info-id="55" x="751" y="212.41667" fill="#B8DEB7" width="41.58333" height="33"/>
+		
+		<rect data-info-id="54" x="751" y="154.58333" fill="#B8DEB7" width="41.41667" height="33.25"/>
+		
+		<rect data-info-id="53" x="751" y="121.33334" fill="#B8DEB7" width="41.41667" height="33.25"/>
+		
+		<rect data-info-id="52" x="718.0625" y="87.83334" fill="#B8DEB7" width="41.58333" height="33.75"/>
+		
+		<rect data-info-id="51" x="676.91669" y="87.83334" fill="#B8DEB7" width="41.08333" height="34"/>
+		
+		<rect data-info-id="49" x="643.5" y="87.83334" fill="#B8DEB7" width="33.41667" height="34"/>
+		
+		<rect data-info-id="" x="709.6875" y="154.58333" fill="#B0D9ED" width="16.75" height="33.25"/>
+		
+		<rect data-info-id="82" x="676.75" y="171.20833" fill="#B0D9ED" width="32.93748" height="16.625"/>
+		
+		<rect data-info-id="45" x="415.75" y="63.29167" fill="#D9D3EB" width="50.75" height="58.25"/>
+		
+		<rect data-info-id="46" x="498.875" y="62.66667" fill="#D9D3EB" width="37" height="58.875"/>
+
+		<rect data-info-id="85" x="693.21875" y="137.95833" fill="#B0D9ED" width="33.21873" height="16.625"/>
+		
+		<rect data-info-id="84" x="676.75" y="137.95833" fill="#B0D9ED" width="16.46875" height="16.62832"/>
+		
+		<rect data-info-id="" x="560.62" y="171.20665" fill="#D9D3EB" width="0.08002" height="8.31"/>
+		
+		<path data-info-id="90" class='activePath' fill="#D9D3EB" d="M610.16998,137.95665v49.88H643.5v-8.32001h16.71002v-41.56H610.16998z M643.5,171.20665H627v-16.62h16.5
+					V171.20665z"/>
+		
+		<polygon data-info-id="89" fill="#D9D3EB" points="544.08002,137.95665 594,137.95665 594,188.41667 560.62,188.41667 560.62,179.51665 
+			560.70001,179.51665 560.70001,171.20665 577.31,171.20665 577.31,154.58665 560.70001,154.58665 560.70001,171.20665 
+			560.62,171.20665 560.62,179.51665 544.08002,179.51665 		"/>
+		
+		<rect data-info-id="" x="560.68549" y="171.20665" fill="#D9D3EB" width="0.029" height="8.31"/>
+		
+		<rect data-info-id="26" x="337.5" y="54.66667" fill="#D9D3EB" width="74.33334" height="17.16667"/>
+		
+		<rect data-info-id="29" x="246.375" y="54.66667" fill="#D9D3EB" width="24.75" height="17.16667"/>
+		
+		<rect data-info-id="16" x="246.375" y="129.54167" fill="#D9D3EB" width="16.25" height="33.5"/>
+		
+		<rect data-info-id="17" x="246.375" y="104.91666" fill="#D9D3EB" width="16.25" height="24.625"/>
+		
+		<rect data-info-id="10" x="221.25" y="88.41666" fill="#D9D3EB" width="41.375" height="16.5"/>
+		
+		<rect data-info-id="14" x="221.25" y="104.91666" fill="#D9D3EB" width="16.87" height="41.37"/>
+		
+		<rect data-info-id="15" x="221.25" y="146.29167" fill="#D9D3EB" width="25.125" height="16.75"/>
+		
+		<rect data-info-id="11" x="188.16667" y="104.91666" fill="#D9D3EB" width="16.91667" height="41.375"/>
+		
+		<rect data-info-id="8" x="163.08333" y="121.41666" fill="#D9D3EB" width="16.83333" height="24.875"/>
+		
+		<polygon data-info-id="18" fill="#D9D3EB" points="320.66998,129.99669 320.66998,163.04668 279.66998,163.04668 279.66998,146.28667 
+			304.16998,146.28667 304.16998,129.99669 		"/>
+		
+		<rect data-info-id="19" x="279.66666" y="121.41666" fill="#D9D3EB" width="16.58333" height="24.875"/>
+		
+		<rect data-info-id="21" x="304.16666" y="104.91666" fill="#D9D3EB" width="16.5" height="25.08002"/>
+		
+		<polygon data-info-id="20" data-info-id="" fill="#D9D3EB" points="320.66998,88.41666 320.66998,104.91666 296.25,104.91666 296.25,121.41666 279.66998,121.41666 
+				279.66998,88.41666 		"/>
+		
+		<rect data-info-id="23" x="370.5" y="138.10417" fill="#D9D3EB" width="24.9375" height="24.9375"/>
+		
+		<rect data-info-id="24" x="370.5" y="113.16666" fill="#D9D3EB" width="24.9375" height="24.9375"/>
+		
+		<polygon data-info-id="22" fill="#D9D3EB" points="370.5,146.28667 370.5,163.04668 337.5,163.04668 337.5,88.41666 361.75,88.41666 
+			361.75,146.28667 		"/>
+		
+		<polygon data-info-id="25" fill="#D9D3EB" points="395.25,88.41666 395.25,113.16666 370.5,113.16666 370.5,105.54667 361.75,105.54667 
+			361.75,88.41666 		"/>
+		
+		<rect data-info-id="57" class="stroke" x="653.5" y="320" fill="#B0D9ED" width="97" height="8.66003"/>
+		
+		<rect data-info-id="" x="701.5" y="287" fill="#B0D9ED" width="24.93748" height="16.66667"/>
+		
+		<rect data-info-id="" x="676.75" y="287" fill="#B0D9ED" width="24.75" height="16.66667"/>
+		
+		<rect data-info-id="" x="652.20831" y="287" fill="#B0D9ED" width="24.54167" height="16.66667"/>
+		
+		<rect data-info-id="72" x="701.5" y="270.41666" fill="#B0D9ED" width="24.93748" height="16.58333"/>
+		
+		<rect data-info-id="71" x="676.75" y="270.41666" fill="#B0D9ED" width="24.75" height="16.58333"/>
+		
+		<rect data-info-id="60" x="652.20831" y="270.41666" fill="#B0D9ED" width="24.54167" height="16.58333"/>
+		
+		<polygon data-info-id="2" class="stroke" fill="#B7D146" points="354,270.41666 354,320.16666 72.33002,320.16666 72.33002,328.66666 15,328.66666 15,236.66667 
+			72.33002,236.66667 72.33002,270.41666 		"/>
+		
+		<path data-info-id="91" class="activePath" fill="#F5F6CB" d="M437.02081,146.27086v82.64581h82.64587v-82.64581H437.02081z M478.57538,218.46922
+			c-17.98682,0-32.56793-14.58112-32.56793-32.56793c0-17.98676,14.58112-32.56793,32.56793-32.56793
+			c17.98676,0,32.56793,14.58118,32.56793,32.56793C511.14331,203.88811,496.56213,218.46922,478.57538,218.46922z"/>
+		
+		<path id="SVGID_x5F_1_x5F_" fill="none" d="M477.79166,48.41667v-9.625"/>
+		<text>		
+			<textPath  xlink:href="#SVGID_x5F_1_x5F_" startOffset="0%">
+			</textPath>
+		</text>
+
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="478" y1="48.48137" x2="478" y2="38.85637"></line>
+
+		<rect x="676.75" y="154.58249" fill="#B0D9ED" width="16.46875" height="16.62832"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M488.25,38.79167c0,5.02269-4.83182,9.08699-10.80301,9.08699"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="498.18567" y1="48.41667" x2="498.18567" y2="38.79167"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M488.25,38.58332c0,5.13784,4.59805,9.29532,10.28036,9.29532"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="270.10672" y1="48.48137" x2="270.10672" y2="38.85637"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M280.56506,38.85637c0,5.02269-4.83182,9.08699-10.80301,9.08699"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="290.50073" y1="48.48137" x2="290.50073" y2="38.85637"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M280.56506,38.64803c0,5.13784,4.59805,9.29532,10.28033,9.29532"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="626.74786" y1="47.29667" x2="626.74786" y2="39.34558"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M635.38733,39.34558c0,4.14918-3.99146,7.50664-8.92419,7.50664"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="643.59509" y1="47.29667" x2="643.59509" y2="39.34558"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M635.38733,39.17348c0,4.2443,3.7984,7.67874,8.49249,7.67874"/>
+		
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="499.65872" y1="327.16666" x2="499.65872" y2="336.79166"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M489.20041,336.79166c0-5.02267,4.83179-9.08698,10.80298-9.08698"
+			/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="479.26474" y1="327.16666" x2="479.26474" y2="336.79166"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M489.20038,337c0-5.13785-4.59802-9.29532-10.28033-9.29532"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="474.62048" y1="327.0625" x2="474.62048" y2="336.6875"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M464.16214,336.6875c0-5.02271,4.83182-9.08701,10.80298-9.08701"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="454.22647" y1="327.0625" x2="454.22647" y2="336.6875"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M464.16211,336.89584c0-5.13785-4.59802-9.29535-10.28033-9.29535"
+			/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="16.66667" y1="225.64401" x2="6.08663" y2="225.64401"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M6.08663,215.18568c5.52106,0,9.98864,4.8318,9.98864,10.80299"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="16.66667" y1="205.25" x2="6.08663" y2="205.25"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M5.85762,215.18567c5.64764,0,10.21764-4.59804,10.21764-10.28033"
+			/>
+		<rect data-info-id="48" x="585.16669" y="87.91666" fill="#B8DEB7" width="41.83333" height="34"/>
+		
+		<rect x="538.16669" y="104.91666" fill="#D9D3EB" width="25.16667" height="16.33333"/>
+		<rect data-info-id="27" x="312.41666" y="54.66667" fill="#D9D3EB" width="25.08333" height="17.16667"/>
+		<rect data-info-id="28" x="287.95834" y="54.66667" fill="#D9D3EB" width="24.45833" height="17.16667"/>
+		<rect x="221.25" y="54.66667" fill="#D9D3EB" width="25.125" height="17.16667"/>
+		<rect x="205.08002" y="54.66667" fill="#D9D3EB" width="16.16998" height="17.16667"/>
+		<rect x="188.16667" y="54.66667" fill="#D9D3EB" width="16.91335" height="17.16667"/>
+		<rect data-info-id="43" x="163.08333" y="54.66667" fill="#D9D3EB" width="25.08333" height="17.16667"/>
+		<rect data-info-id="44" x="139" y="54.66667" fill="#D9D3EB" width="24.08333" height="17.16667"/>
+		<rect data-info-id="92" x="308.5" y="179.54167" fill="#C8C3E3" width="20.625" height="16.375"/>
+		<rect data-info-id="13" x="163.08333" y="88.41666" fill="#D9D3EB" width="16.83333" height="16.5"/>
+		<rect data-info-id="9" x="179.91667" y="88.41666" fill="#D9D3EB" width="25.16667" height="16.5"/>
+		<rect data-info-id="12" x="163.08333" y="104.91666" fill="#D9D3EB" width="16.83333" height="16.5"/>
+		<rect data-info-id="7" x="163.08333" y="146.29167" fill="#D9D3EB" width="42" height="16.25"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="566.81256" y1="121.91667" x2="566.81256" y2="113.96558"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M575.45209,113.96558c0,4.14918-3.99152,7.50664-8.92426,7.50664"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="583.65979" y1="121.91667" x2="583.65979" y2="113.96558"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M575.45209,113.79347c0,4.2443,3.79834,7.67874,8.49243,7.67874"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="651.41974" y1="317.68091" x2="651.41974" y2="325.01981"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M643.5993,325.01981c0-3.82971,3.6131-6.92868,8.07813-6.92868"/>
+		<line fill="none" stroke="#CE4E44" stroke-miterlimit="10" x1="636.16974" y1="317.68091" x2="636.16974" y2="325.01981"/>
+		<path fill="none" stroke="#CE4E44" stroke-miterlimit="10" d="M643.5993,325.17865c0-3.91751-3.43829-7.08752-7.68732-7.08752"/>
+
+
+		<!-- ПОДПИСИ -->
+		<text data-info-id="2" transform="matrix(1 0 0 1 95 290.66666)">
+			<tspan x="0" y="0" font-size="11px">Стационарная зона</tspan>
+			<tspan x="-54.09668" y="13.2002" font-size="11px">развлечений для детец КВЦ «Югра-Экспо»</tspan>
+		</text>
+
+		<text data-info-id="2" transform="matrix(1 0 0 1 279.0127 290.66666)">
+			<tspan x="0" y="0" font-size="8px">Детская комната</tspan>
+			<tspan x="8.05566" y="9.59961" font-size="8px">on-line няня</tspan>
+		</text>
+
+		<text data-info-id="5" transform="matrix(1 0 0 1 123 230)" font-size="8px">ИТ в здравохранении</text>
+		
+		<text data-info-id="4" transform="matrix(1 0 0 1 225.11133 233.16667)" font-size="14px">Технопарк</text>
+
+		<text data-info-id="3" transform="matrix(0.93 0 0 0.93 322 217)">
+			<tspan x="0" y="0" font-size="9px">ИТ в образовании</tspan>
+			<tspan x="5.71045" y="10.7998" font-size="9px">Робототехника</tspan>
+			<tspan x="-8.99951" y="21.59961" font-size="9px">Школьные технологии</tspan>
+			<tspan x="15.00293" y="32.40039" font-size="9px">Worldskills</tspan>
+		</text>
+
+		<text data-info-id="1" transform="matrix(0.9 0 0 0.9 367 287)">
+			<tspan x="0" y="0" font-size="10px">Центр обработки</tspan>
+			<tspan x="19.22949" y="12" font-size="10px">вызовов</tspan>
+			<tspan x="5.43506" y="24" font-size="10px">(Система - 112)</tspan>
+		</text>
+
+		<text data-info-id="6" transform="matrix(0 -1.13945 1 0 58.54395 156.93913)" fill="#F24945" font-size="24px">СЦЕНА</text>
+		
+		<text data-info-id="91" transform="matrix(1 0 0 1 447.26086 185.53334)">
+			<tspan x="0" y="0" font-size="9px">Организаторы</tspan>
+			<tspan x="11" y="12" font-size="10px">форума</tspan>
+		</text>
+
+		<text data-info-id="87" transform="matrix(1.2 0 0 1.2 571.15527 286.49966)">
+			<tspan x="0" y="0" font-size="6px">Зал для</tspan>
+			<tspan x="-15.55469" y="7.2002" font-size="6px">мастер-классов №5</tspan>
+			<tspan x="-4.62598" y="21.59961" font-size="6px">Киноцентр</tspan>
+		</text>
+
+		<text data-info-id="45" transform="matrix(1 0 0 1 416 92.41666)" font-size="8px">ИТ в туризме</text>
+
+		<text data-info-id="46" transform="matrix(1 0 0 1 501.83105 81.79166)">
+			<tspan x="0" y="0" font-size="6px">ИТ в спорте</tspan>
+			<tspan x="-2.50586" y="9.6001" font-size="8px">Интернет-</tspan>
+			<tspan x="-0.22559" y="19.2002" font-size="8px">шахматы</tspan>
+		</text>
+
+		<text data-info-id="47" transform="matrix(1 0 0 1 542.38867 111.41666)">
+			<tspan x="0" y="0" font-size="6px">Пресс-</tspan>
+			<tspan x="1.00586" y="7.2002" font-size="6px">центр</tspan>
+		</text>
+
+		<text data-info-id="48" transform="matrix(0.94 0 0 0.94 595 100.41666)">
+			<tspan x="0" y="0" font-size="5px">г.Югорск</tspan>
+			<tspan x="-2.12695" y="6" font-size="5px">Игра-квест</tspan>
+			<tspan x="-10.24902" y="12" font-size="5px">«Тайна 8 планеты»</tspan>
+		</text>
+
+		<text data-info-id="49" transform="matrix(1 0 0 1 645.11652 106.29166)" font-size="5px">«Hello, робот»</text>
+
+		<text data-info-id="51" transform="matrix(1 0 0 1 687.32355 105.54166)" font-size="5px">«Песок»</text>
+
+		<text data-info-id="52" transform="matrix(1 0 0 1 725.08752 97.16666)">
+			<tspan x="0" y="0" font-size="3px">Обучение граждан</tspan>
+			<tspan x="-5.29199" y="3.6001" font-size="3px">«Электронный гражданин»</tspan>
+			<tspan x="-5.31543" y="15.6001" font-size="5px">«Мультфильмы»</tspan>
+		</text>
+
+		<text data-info-id="53" transform="matrix(1 0 0 1 765.04785 132.91667)">
+			<tspan x="0" y="0" font-size="4px">Зал для</tspan>
+			<tspan x="-10.36914" y="4.7998" font-size="4px">мастер-классов №1</tspan>
+			<tspan x="-3.08398" y="14.40039" font-size="4px">Киноцентр</tspan>
+		</text>
+
+		<text data-info-id="54" transform="matrix(1 0 0 1 764 159.79167)">
+			<tspan x="0" y="0" font-size="4px">Зал для</tspan>
+			<tspan x="-10.36914" y="4.7998" font-size="4px">мастер-классов №2</tspan>
+			<tspan x="-10.11523" y="14.40039" font-size="4px">«Государственный </tspan>
+			<tspan x="-8.67578" y="19.2002" font-size="4px">художественный </tspan>
+			<tspan x="0.42188" y="24" font-size="4px">музей»</tspan>
+		</text>
+
+		<text data-info-id="55" transform="matrix(1 0 0 1 764 222.33333)">
+			<tspan x="0" y="0" font-size="4px">Зал для</tspan>
+			<tspan x="-10.17969" y="4.7998" font-size="4px">мастер классов №3</tspan>
+			<tspan x="1.0166" y="14.40039" font-size="4px">г.Урай</tspan>
+		</text>
+
+		<text data-info-id="56" transform="matrix(1 0 0 1 764 251.16635)">
+			<tspan x="0" y="0" font-size="4px">Зал для</tspan>
+			<tspan x="-10.36914" y="4.7998" font-size="4px">мастер-классов №4</tspan>
+			<tspan x="-6.64941" y="14.40039" font-size="4px">Мастер-классы</tspan>
+			<tspan x="-4.32129" y="19.2002" font-size="4px">IT-компаний</tspan>
+		</text>
+
+		<text data-info-id="57" transform="matrix(1 0 0 1 676.56445 325.83365)" font-size="7px">ТехПедКолледж</text>
+
+		<text data-info-id="88"  transform="matrix(0.97 0 0 0.97 544.97852 232.66667)" font-size="9px">Ростелеком</text>
+
+		<text data-info-id="26" transform="matrix(1 0 0 1 345.5376 61.29167)">
+			<tspan x="0" y="0" font-size="6px">Сувенирная продукция</tspan>
+			<tspan x="22.55957" y="7.2002" font-size="6px">ХМАО</tspan>
+		</text>
+
+		<text data-info-id="27" transform="matrix(1 0 0 1 312.50195 64.91666)" font-size="6px">Регион-К</text>
+
+		<text data-info-id="28" transform="matrix(1 0 0 1 289.06689 64.29166)" font-size="3.5px">Рыбокомбинат</text>
+
+		<text data-info-id="29" transform="matrix(1 0 0 1 247.52539 65.04166)" font-size="3.5px">Центр ремесел</text>
+
+		<text data-info-id="43" transform="matrix(1 0 0 1 167.71582 66.41666)" font-size="8px">ЮГУ</text>
+
+		<text data-info-id="44" transform="matrix(1 0 0 1 142.10693 65.79166)" font-size="7px">НВГУ</text>
+
+		<text data-info-id="7" transform="matrix(1 0 0 1 169.67236 157.33366)" font-size="8px">ЮНИИТ</text>
+
+		<text data-info-id="8" transform="matrix(1 0 0 1 164.3999 138.16667)" font-size="8px">ТПП</text>
+
+		<text data-info-id="12"  transform="matrix(1 0 0 1 163.65479 115.83317)" font-size="8px">ФПП</text>
+
+		<text data-info-id="13" transform="matrix(1 0 0 1 165.64063 92.83317)">
+			<tspan x="0" y="0" font-size="4px">Нефте-</tspan>
+			<tspan x="-2.27979" y="4.7998" font-size="4px">юганский</tspan>
+			<tspan x="0.62598" y="9.6001" font-size="4px">район</tspan>
+		</text>
+
+		<text data-info-id="9" transform="matrix(1 0 0 1 182.48975 95.50016)">
+			<tspan x="0" y="0" font-size="4px">Сургутский</tspan>
+			<tspan x="4.44385" y="4.7998" font-size="4px">район</tspan>
+		</text>
+
+		<text data-info-id="11" transform="matrix(0 -1 1 0 199.3479 142.7448)" font-size="8px">Почта РФ</text>
+
+		<text data-info-id="10" transform="matrix(1 0 0 1 228.00049 94.16666)">
+			<tspan x="0" y="0" font-size="6px">Архивная</tspan>
+			<tspan x="3.35693" y="7.2002" font-size="6px">служба</tspan>
+		</text>
+
+		<text data-info-id="16" transform="matrix(1 0 0 1 247.45703 147.83366)" font-size="6px">МФЦ</text>
+
+		<text data-info-id="15" transform="matrix(1 0 0 1 224.3877 153.16667)">
+			<tspan x="0" y="0" font-size="5px">Деп. соц.</tspan>
+			<tspan x="-0.37988" y="6" font-size="5px">развития</tspan>
+		</text>
+
+		<text data-info-id="14" transform="matrix(0 -1 1 0 228.13428 138.73503)">
+			<tspan x="0" y="0" font-size="5px">Пенсионный</tspan>
+			<tspan x="7.6748" y="6" font-size="5px"> фонд</tspan>
+		</text>
+
+		<text data-info-id="18" transform="matrix(1 0 0 1 280.90137 152.99968)">
+			<tspan x="0" y="0" font-size="5.5px">Администрация</tspan>
+			<tspan x="15.31738" y="6.59961" font-size="5.5px">ХМ</tspan>
+		</text>
+
+		<text data-info-id="20" transform="matrix(1 0 0 1 282.22168 97.33317)" font-size="8px">Росреестр</text>
+
+		<text data-info-id="21" transform="matrix(0 -1 1 0 314.30103 128.21989)" font-size="4.5px">Налоговая</text>
+
+		<text data-info-id="19" transform="matrix(1 0 0 1 280.18018 128.33318)">
+			<tspan x="0" y="0" font-size="4px">Институт</tspan>
+			<tspan x="2.1001" y="4.7998" font-size="4px">обско-</tspan>
+			<tspan x="-0.01611" y="9.6001" font-size="4px">угорских</tspan>
+			<tspan x="0.37012" y="14.3999" font-size="4px">народов</tspan>
+		</text>
+
+		<text data-info-id="22" transform="matrix(1 0 0 1 342.43115 103.83317)">
+			<tspan x="0" y="0" font-size="5px">Музей</tspan>
+			<tspan x="-3.04004" y="6" font-size="5px">природы</tspan>
+			<tspan x="5.51758" y="12" font-size="5px">и</tspan>
+			<tspan x="-3.18262" y="18" font-size="5px">человека</tspan>
+			<tspan x="-1.67773" y="30" font-size="5px">(Проект</tspan>
+			<tspan x="-2.91992" y="36" font-size="5px">Угорская</tspan>
+			<tspan x="-1.84766" y="41.99951" font-size="5px">княжна)</tspan>
+		</text>
+
+		<text data-info-id="23" transform="matrix(1 0 0 1 378.87662 146.2704)">
+			<tspan x="0" y="0" font-size="5px">Гос.</tspan>
+			<tspan x="-1.71777" y="5.99951" font-size="5px">библ.</tspan>
+			<tspan x="-2.12256" y="11.99951" font-size="5px">Югры</tspan>
+		</text>
+
+		<text data-info-id="24" transform="matrix(1 0 0 1 380.70181 122.91666)">
+			<tspan x="0" y="0" font-size="5px">ТО</tspan>
+			<tspan x="-6.9126" y="6" font-size="5px">Культура</tspan>
+		</text>
+
+		<text data-info-id="25" transform="matrix(1 0 0 1 377.14487 95.50017)">
+			<tspan x="0" y="0" font-size="4px">Музей</tspan>
+			<tspan x="0.21582" y="4.7998" font-size="4px">нефти</tspan>
+			<tspan x="0.43018" y="9.6001" font-size="4px">и газа</tspan>
+		</text>
+
+		<text data-info-id="92" transform="matrix(1 0 0 1 311.35498 186.04167)">
+			<tspan x="0" y="0" font-size="4px">Гимназия</tspan>
+			<tspan x="0.49219" y="4.7998" font-size="4px">г.Югорск</tspan>
+		</text>
+
+		<text data-info-id="79" transform="matrix(1 0 0 1 611.35059 246.91667)" font-size="5px">Нэт Бай Нэт</text>
+
+		<text data-info-id="80" transform="matrix(0 -1 1 0 620.46777 234.35222)" font-size="5px">Прайм груп</text>
+
+		<text data-info-id="81" transform="matrix(1 0 0 1 630.39746 213.79167)" font-size="5px">Систематика</text>
+
+		<text data-info-id="78" transform="matrix(0 -1 1 0 653.4668 248.36101)" font-size="6px">СибНац</text>
+
+		<text data-info-id="74" transform="matrix(1 0 0 1 684.77832 243.91667)">
+			<tspan x="0" y="0" font-size="6px">Эдванс</tspan>
+			<tspan x="-3.18652" y="7.2002" font-size="6px">Трейдинг</tspan>
+		</text>
+
+		<text data-info-id="77" transform="matrix(0 -1 1 0 687.625 234.39226)" font-size="6px">ИТП Град</text>
+
+		<text data-info-id="76" transform="matrix(1 0 0 1 701.52344 215.66667)" font-size="9px">АйТи</text>
+
+		<text  data-info-id="75" transform="matrix(0 -1 1 0 716.41064 244.39128)">
+			<tspan x="0" y="0" font-size="6px">DEPO</tspan>
+			<tspan x="-6.77734" y="7.2002" font-size="6px">Computers</tspan>
+		</text>
+
+		<text data-info-id="84" transform="matrix(1 0 0 1 680.02344 149.16667)" font-size="8px">ICL</text>
+
+		<text data-info-id="85" transform="matrix(1 0 0 1 697.27539 149.16667)" font-size="7px">HYTERA</text>
+
+		<text data-info-id="82" transform="matrix(1 0 0 1 686.36133 177.79167)">
+			<tspan x="0" y="0" font-size="6px">ООО</tspan>
+			<tspan x="-3.16211" y="7.2002" font-size="6px">Комтек</tspan>
+		</text>
+
+		<text data-info-id="90" transform="matrix(1 0 0 1 564.2627 155.66667)" font-size="11px">Томская область</text>
+
+		<text data-info-id="89" transform="matrix(1 0 0 1 565.95673 183.16699)" font-size="11px">ВУЗы</text>
+
+		<text transform="matrix(1 0 0 1 610.38867 176.66667)">
+			<tspan x="0" y="0" font-size="5.6px">Инновационная</tspan>
+			<tspan x="6.34277" y="6.71973" font-size="5.6px">продукция</tspan>
+		</text>
+
+		<text data-info-id="60" transform="matrix(1 0 0 1 652.25098 281.33365)" font-size="3.8px">МедИнфЦентр</text>
+
+		<text data-info-id="71" transform="matrix(1 0 0 1 681.35645 274.99966)">
+			<tspan x="0" y="0" font-size="3.8px">Югорские</tspan>
+			<tspan x="0.59473" y="4.55957" font-size="3.8px">интернет</tspan>
+			<tspan x="-1.26758" y="9.12012" font-size="3.8px">технологии</tspan>
+		</text>
+
+		<text data-info-id="72" transform="matrix(1 0 0 1 706.40332 277.49966)">
+			<tspan x="0" y="0" font-size="7px">НПО</tspan>
+			<tspan x="-3.59082" y="8.40039" font-size="7px">Криста</tspan>
+		</text>
+
+		<text data-info-id="59" transform="matrix(1 0 0 1 654.0293 297.49966)" font-size="8px">BePro</text>
+
+
+	<!-- ТОЧКИ ВХОДА -->
+		<circle data-id="1" data-connected="151" class="st19" cx="407.2600098" cy="266.1666565" r="1.5"/>
+		<circle data-id="2" data-connected="153" class="st19" cx="318.75" cy="268.1666565" r="1.5"/>
+		<circle data-id="3" data-connected="152" class="st19" cx="344.6073914" cy="256.3209229" r="1.5"/>
+		<circle data-id="4" data-connected="154" class="st19" cx="257.1666565" cy="256.3209229" r="1.5"/>
+		<circle data-id="5" data-connected="155" class="st19" cx="158.5" cy="256.3209229" r="1.5"/>
+		<circle data-id="6" data-connected="159" class="st19" cx="90.5" cy="113.6666641" r="1.5"/>
+		<circle data-id="7" data-connected="162" class="st19" cx="184.0833282" cy="164.6666718" r="1.5"/>
+		<circle data-id="8" data-connected="184" class="st19" cx="160.75" cy="135.1666718" r="1.5"/>
+		<circle data-id="9" data-connected="179" class="st19" cx="196.625" cy="86.9166641" r="1.5"/>
+		<circle data-id="10" data-connected="177" class="st19" cx="241.9375" cy="86.9166641" r="1.5"/>
+		<circle data-id="11" data-connected="164" class="st19" cx="206.75" cy="134.1666718" r="1.5"/>
+		<circle data-id="12" data-connected="183" class="st19" cx="160.75" cy="115.1666641" r="1.5"/>
+		<circle data-id="13" data-connected="182" class="st19" cx="160.75" cy="95.1666641" r="1.5"/>
+		<circle data-id="14" data-connected="165" class="st19" cx="220.0833282" cy="128.4966888" r="1.5"/>
+		<circle data-id="15" data-connected="167" class="st19" cx="232.3125" cy="164.6666718" r="1.5"/>
+		<circle data-id="16" data-connected="172" class="st19" cx="264.125" cy="154.4166718" r="1.5"/>
+		<circle data-id="17" data-connected="174" class="st19" cx="264.125" cy="116.6666641" r="1.5"/>
+		<circle data-id="18" data-connected="169" class="st19" cx="303.5" cy="164.6666718" r="1.5"/>
+		<circle data-id="19" data-connected="173" class="st19" cx="278.1666565" cy="135.6666718" r="1.5"/>
+		<circle data-id="20" data-connected="191" class="st19" cx="289.4583435" cy="86.9166641" r="1.5"/>
+		<circle data-id="21" data-connected="187" class="st19" cx="322.1699829" cy="115.6666641" r="1.5"/>
+		<circle data-id="22" data-connected="186" class="st19" cx="336" cy="145.0216827" r="1.5"/>
+		<circle data-id="23" data-connected="196" class="st19" cx="396.9375" cy="154.6666718" r="1.5"/>
+		<circle data-id="24" data-connected="195" class="st19" cx="396.9375" cy="126.0416641" r="1.5"/>
+		<circle data-id="25" data-connected="193" class="st19" cx="385.1666565" cy="86.9166641" r="1.5"/>
+		<circle data-id="26" data-connected="192" class="st19" cx="374.6666565" cy="73.3333359" r="1.5"/>
+		<circle data-id="27" data-connected="189" class="st19" cx="325.1666565" cy="73.3333359" r="1.5"/>
+		<circle data-id="28" data-connected="190" class="st19" cx="300.1875" cy="73.3333359" r="1.5"/>
+		<circle data-id="29" data-connected="176" class="st19" cx="258.75" cy="73.3333359" r="1.5"/>
+		<circle data-id="30" data-connected="178" class="st19" cx="233.8125" cy="73.3333359" r="1.5"/>
+		<circle data-id="41" data-connected="166" class="st19" cx="213.1650085" cy="73.3333359" r="1.5"/>
+		<circle data-id="42" data-connected="179" class="st19" cx="196.625" cy="73.3333359" r="1.5"/>
+		<circle data-id="43" data-connected="180" class="st19" cx="175.625" cy="73.3333359" r="1.5"/>
+		<circle data-id="44" data-connected="181" class="st19" cx="151.0416718" cy="73.3333359" r="1.5"/>
+		<circle data-id="45" data-connected="200" class="st19" cx="441.125" cy="122.9166641" r="1.5"/>
+		<circle data-id="46" data-connected="139" class="st19" cx="517.375" cy="122.75" r="1.5"/>
+		<circle data-id="47" data-connected="138" class="st19" cx="550.75" cy="123.4166641" r="1.5"/>
+		<circle data-id="48" data-connected="136" class="st19" cx="606.083313" cy="123.4166641" r="1.5"/>
+		<circle data-id="49" data-connected="129" class="st19" cx="660.25" cy="123.4166641" r="1.5"/>
+		<circle data-id="51" data-connected="128" class="st19" cx="697.458313" cy="123.4166641" r="1.5"/>
+		<circle data-id="52" data-connected="126" class="st19" cx="738.854126" cy="123.4166641" r="1.5"/>
+		<circle data-id="53" data-connected="125" class="st19" cx="748.666687" cy="137.9583282" r="1.5"/>
+		<circle data-id="54" data-connected="124" class="st19" cx="748.666687" cy="171.2066498" r="1.5"/>
+		<circle data-id="55" data-connected="114" class="st19" cx="748.666687" cy="228.9583282" r="1.5"/>
+		<circle data-id="56" data-connected="112" class="st19" cx="748.666687" cy="262.0833435" r="1.5"/>
+		<circle data-id="57" data-connected="101" class="st19" cx="701.6049805" cy="318.0911255" r="1.5"/>
+		<circle data-id="58" data-connected="102" class="st19" cx="713.96875" cy="305.1666565" r="1.5"/>
+		<circle data-id="59" data-connected="104" class="st19" cx="664.479187" cy="305.1666565" r="1.5"/>
+		<circle data-id="60" data-connected="107" class="st19" cx="664.479187" cy="268.9166565" r="1.5"/>
+		<circle data-id="71" data-connected="108" class="st19" cx="689.125" cy="268.9166565" r="1.5"/>
+		<circle data-id="72" data-connected="109" class="st19" cx="713.96875" cy="268.9166565" r="1.5"/>
+		<circle data-id="73" data-connected="103" class="st19" cx="689.125" cy="305.1666565" r="1.5"/>
+		<circle data-id="74" data-connected="110" class="st19" cx="693.21875" cy="255.75" r="1.5"/>
+		<circle data-id="75" data-connected="113" class="st19" cx="727.9375" cy="237.25" r="1.5"/>
+		<circle data-id="76" data-connected="116" class="st19" cx="709.6875" cy="202.75" r="1.5"/>
+		<circle data-id="77" data-connected="120" class="st19" cx="675.25" cy="220.8333282" r="1.5"/>
+		<circle data-id="78" data-connected="119" class="st19" cx="662.083313" cy="237.4166718" r="1.5"/>
+		<circle data-id="79" data-connected="212" class="st19" cx="627" cy="255.75" r="1.5"/>
+		<circle data-id="80" data-connected="146" class="st19" cx="608.666687" cy="220.8333282" r="1.5"/>
+		<circle data-id="81" data-connected="130" class="st19" cx="644.25" cy="202.75" r="1.5"/>
+		<circle data-id="82" data-connected="117" class="st19" cx="693.21875" cy="189.0937653" r="1.5"/>
+		<circle data-id="83" data-connected="124" class="st19" cx="727.9375" cy="171.2083282" r="1.5"/>
+		<circle data-id="84" data-connected="122" class="st19" cx="675.25" cy="154.5833282" r="1.5"/>
+		<circle data-id="85" data-connected="127" class="st19" cx="709.6875" cy="136.4583282" r="1.5"/>
+		<circle data-id="86" data-connected="143" class="st19" cx="523.458313" cy="268.9166565" r="1.5"/>
+		<circle data-id="87" data-connected="144" class="st19" cx="579.625" cy="268.1666565" r="1.5"/>
+		<circle data-id="88" data-connected="134" class="st19" cx="542.916687" cy="228.9166718" r="1.5"/>
+		<circle data-id="89" data-connected="132" class="st19" cx="570.9899292" cy="189.9166718" r="1.5"/>
+		<circle data-id="90" data-connected="130" class="st19" cx="635.1900024" cy="189.0937653" r="1.5"/>
+		<circle data-id="91" data-connected="142" class="st19" cx="479.2647095" cy="230.4166718" r="1.5"/>
+		<circle data-id="92" data-connected="171" class="st19" cx="320.25" cy="177.8616486" r="1.5"/>
+		<circle data-id="93" data-connected="147" class="st19" cx="464.1621094" cy="333.8523254" r="1.5"/>
+		<circle data-id="94" data-connected="148" class="st19" cx="489.461731" cy="333.8523254" r="1.5"/>
+		<circle data-id="95" data-connected="199" class="st19" cx="280.1875" cy="41" r="1.5"/>
+		<circle data-id="96" data-connected="209" class="st19" cx="488.25" cy="41" r="1.5"/>
+		<circle data-id="97" data-connected="105" class="st19" cx="643.5993042" cy="322.5833435" r="1.5"/>
+		<circle data-id="98" data-connected="157" class="st19" cx="10.9664383" cy="215.1666718" r="1.5"/>
+		<circle data-id="99" data-connected="138" class="st19" cx="575.4520874" cy="116.3653946" r="1.5"/>
+		<circle data-id="100" data-connected="211" class="st19" cx="635.3873291" cy="44.2082024" r="1.5"/>
+
+
+	<!-- соединительные точки -->
+		<circle data-id="101" data-connected="57_102_103" class="st38" cx="701.6049805" cy="311.7516479" r="1.5"/>
+		<circle data-id="102" data-connected="58_101_111" class="st38" cx="713.96875" cy="311.7516479" r="1.5"/>
+		<circle data-id="103" data-connected="104_101_73" class="st38" cx="689.125" cy="311.7516479" r="1.5"/>
+		<circle data-id="104" data-connected="59_103_105" class="st38" cx="664.479187" cy="311.7516479" r="1.5"/>
+		<circle data-id="105" data-connected="97_104_106" class="st38" cx="643.5993042" cy="311.7516479" r="1.5"/>
+		<circle data-id="106" data-connected="105_107_212" class="st38" cx="643.5993042" cy="262.4166565" r="1.5"/>
+		<circle data-id="107" data-connected="60_106_118" class="st38" cx="664.3330078" cy="262.4166565" r="1.5"/>
+		<circle data-id="108" data-connected="71_110_118" class="st38" cx="689.125" cy="262.3333435" r="1.5"/>
+		<circle data-id="109" data-connected="72_110_112" class="st38" cx="713.96875" cy="262.4166565" r="1.5"/>
+		<circle data-id="110" data-connected="74_108_109" class="st38" cx="693.21875" cy="262.4166565" r="1.5"/>
+		<circle data-id="111" data-connected="102_112" class="st38" cx="737.916687" cy="311.7516479" r="1.5"/>
+		<circle data-id="112" data-connected="56_113_109" class="st38" cx="738.25" cy="262.4166565" r="1.5"/>
+		<circle data-id="113" data-connected="75_114_112" class="st38" cx="738.25" cy="237.25" r="1.5"/>
+		<circle data-id="114" data-connected="55_113_115" class="st38" cx="738.25" cy="228.9583282" r="1.5"/>
+		<circle data-id="115" data-connected="116_114_124" class="st38" cx="738.25" cy="194" r="1.5"/>
+		<circle data-id="116" data-connected="117_76_115" class="st38" cx="709.6875" cy="194" r="1.5"/>
+		<circle data-id="117" data-connected="82_116_121" class="st38" cx="693.21875" cy="194" r="1.5"/>
+		<circle data-id="118" data-connected="107_108_119" class="st38" cx="668.375" cy="262.4166565" r="1.5"/>
+		<circle data-id="119" data-connected="118_120_78" class="st38" cx="668.375" cy="237.4166718" r="1.5"/>
+		<circle data-id="120" data-connected="77_121_119" class="st38" cx="668.666687" cy="220.8333282" r="1.5"/>
+		<circle data-id="121" data-connected="117_122_130_120" class="st38" cx="668.666687" cy="194" r="1.5"/>
+		<circle data-id="122" data-connected="121_123_84" class="st38" cx="669.375" cy="154.582489" r="1.5"/>
+		<circle data-id="123" data-connected="122_128_129" class="st38" cx="669.375" cy="129.8331757" r="1.5"/>
+		<circle data-id="124" data-connected="115_125_54_83" class="st38" cx="738.25" cy="171.2108002" r="1.5"/>
+		<circle data-id="125" data-connected="124_126_53" class="st38" cx="738.25" cy="138.6666718" r="1.5"/>
+		<circle data-id="126" data-connected="52_125_127" class="st38" cx="738.25" cy="129.8331757" r="1.5"/>
+		<circle data-id="127" data-connected="126_128_85" class="st38" cx="709.6875" cy="129.8331757" r="1.5"/>
+		<circle data-id="128" data-connected="51_127_123" class="st38" cx="697.458313" cy="129.8958282" r="1.5"/>
+		<circle data-id="129" data-connected="49_210_123" class="st38" cx="660.208313" cy="129.8331757" r="1.5"/>
+		<circle data-id="130" data-connected="81_90_121_131" class="st38" cx="635.1900024" cy="195" r="1.5"/>
+		<circle data-id="131" data-connected="135_130_146_132" class="st38" cx="604" cy="195" r="1.5"/>
+		<circle data-id="132" data-connected="89_133_131" class="st38" cx="570.9899292" cy="195" r="1.5"/>
+		<circle data-id="133" data-connected="132_134_137" class="st38" cx="533.166687" cy="195.5" r="1.5"/>
+		<circle data-id="134" data-connected="133_88_141" class="st38" cx="533.166687" cy="228.9583282" r="1.5"/>
+		<circle data-id="135" data-connected="131_136_138" class="st38" cx="604" cy="129.8331757" r="1.5"/>
+		<circle data-id="136" data-connected="135_48_210" class="st38" cx="606.083313" cy="129.8331757" r="1.5"/>
+		<circle data-id="137" data-connected="133_138_139" class="st38" cx="533.166687" cy="129.8331757" r="1.5"/>
+		<circle data-id="138" data-connected="99_47_137_135" class="st38" cx="550.75" cy="129.8331757" r="1.5"/>
+		<circle data-id="139" data-connected="137_208_46" class="st38" cx="517.125" cy="129.8331757" r="1.5"/>
+		<circle data-id="140" data-connected="141_143_144" class="st38" cx="533.166687" cy="260.8333435" r="1.5"/>
+		<circle data-id="141" data-connected="134_140_142_207" class="st38" cx="533.166687" cy="244.8958282" r="1.5"/>
+		<circle data-id="142" data-connected="91_149_141_143" class="st38" cx="479.2647095" cy="244.8958282" r="1.5"/>
+		<circle data-id="143" data-connected="140_86_207_142" class="st38" cx="523.458313" cy="260.8333435" r="1.5"/>
+		<circle data-id="144" data-connected="140_145_87" class="st38" cx="579.625" cy="262.3333435" r="1.5"/>
+		<circle data-id="145" data-connected="146_212_144" class="st38" cx="604" cy="262.4166565" r="1.5"/>
+		<circle data-id="146" data-connected="80_131_145" class="st38" cx="604" cy="220.8333282" r="1.5"/>
+		<circle data-id="147" data-connected="93_206_149_205_148" class="st38" cx="464.7647095" cy="286.4996643" r="1.5"/>
+		<circle data-id="148" data-connected="94_207_149_147_206" class="st38" cx="490" cy="286.4996643" r="1.5"/>
+		<circle data-id="149" data-connected="142_207_148_147_206" class="st38" cx="479.26474" cy="260.8333435" r="1.5"/>
+		<circle data-id="151" data-connected="1_152_204" class="st38" cx="407.3333435" cy="260.8333435" r="1.5"/>
+		<circle data-id="152" data-connected="3_151_153" class="st38" cx="344.6073914" cy="260.8333435" r="1.5"/>
+		<circle data-id="153" data-connected="2_152_154" class="st38" cx="318.75" cy="260.8333435" r="1.5"/>
+		<circle data-id="154" data-connected="4_153_155" class="st38" cx="257.1666565" cy="260.8333435" r="1.5"/>
+		<circle data-id="155" data-connected="5_154_156" class="st38" cx="158.5" cy="260.8333435" r="1.5"/>
+		<circle data-id="156" data-connected="155_157" class="st38" cx="98" cy="260.8333435" r="1.5"/>
+		<circle data-id="157" data-connected="98_156_158" class="st38" cx="96.5" cy="215.1856842" r="1.5"/>
+		<circle data-id="158" data-connected="157_160_213_184" class="st38" cx="115" cy="169.6666718" r="1.5"/>
+		<circle data-id="159" data-connected="6_160_161_183_182_184_213" class="st38" cx="115" cy="114.5836563" r="1.5"/>
+		<circle data-id="160" data-connected="158_159_184_183" class="st38" cx="115" cy="135.1666718" r="1.5"/>
+		<circle data-id="161" data-connected="159_182" class="st38" cx="125.3333359" cy="95.5001678" r="1.5"/>
+		<circle data-id="162" data-connected="7_163_213" class="st38" cx="184.0833282" cy="169.6666718" r="1.5"/>
+		<circle data-id="163" data-connected="162_164_167" class="st38" cx="213.1650085" cy="169.6666718" r="1.5"/>
+		<circle data-id="164" data-connected="11_163_165" class="st38" cx="213.1666718" cy="134.1666718" r="1.5"/>
+		<circle data-id="165" data-connected="14_164_166" class="st38" cx="213.1666718" cy="128.4966888" r="1.5"/>
+		<circle data-id="166" data-connected="41_178_179_165" class="st38" cx="213.1666718" cy="80.2916641" r="1.5"/>
+		<circle data-id="167" data-connected="15_163_168" class="st38" cx="232.3125" cy="169.6666718" r="1.5"/>
+		<circle data-id="168" data-connected="167_169_172" class="st38" cx="271.625" cy="169.6666718" r="1.5"/>
+		<circle data-id="169" data-connected="18_168_171" class="st38" cx="303.5" cy="169.6666718" r="1.5"/>
+		<circle data-id="171" data-connected="92_169_185" class="st38" cx="320.25" cy="169.6666718" r="1.5"/>
+		<circle data-id="172" data-connected="16_168_173" class="st38" cx="271.90625" cy="154.4166718" r="1.5"/>
+		<circle data-id="173" data-connected="19_172_174" class="st38" cx="271.90625" cy="135.6666718" r="1.5"/>
+		<circle data-id="174" data-connected="17_173_175" class="st38" cx="271.625" cy="116.6666641" r="1.5"/>
+		<circle data-id="175" data-connected="176_198_174" class="st38" cx="271.90625" cy="80.2916641" r="1.5"/>
+		<circle data-id="176" data-connected="29_175_177" class="st38" cx="259" cy="80.2916641" r="1.5"/>
+		<circle data-id="177" data-connected="10_176_178" class="st38" cx="241.9375" cy="80.2916641" r="1.5"/>
+		<circle data-id="178" data-connected="30_166_177" class="st38" cx="233.8125" cy="80.2916641" r="1.5"/>
+		<circle data-id="179" data-connected="9_42_166_180" class="st38" cx="196.625" cy="80.125" r="1.5"/>
+		<circle data-id="180" data-connected="43_179_181" class="st38" cx="175.625" cy="80.2916641" r="1.5"/>
+		<circle data-id="181" data-connected="44_180_182" class="st38" cx="151.125" cy="80.2916641" r="1.5"/>
+		<circle data-id="182" data-connected="13_181_183_161_159" class="st38" cx="151.0416718" cy="95.1666641" r="1.5"/>
+		<circle data-id="183" data-connected="12_159_182_184_160" class="st38" cx="151.125" cy="115.1666641" r="1.5"/>
+		<circle data-id="184" data-connected="8_160_183_213_158_159" class="st38" cx="151.125" cy="135.1666718" r="1.5"/>
+		<circle data-id="185" data-connected="171_186_197" class="st38" cx="329.125" cy="169.6666718" r="1.5"/>
+		<circle data-id="186" data-connected="22_185_187" class="st38" cx="329.125" cy="145.0216827" r="1.5"/>
+		<circle data-id="187" data-connected="21_186_188" class="st38" cx="329.0833435" cy="115.6666641" r="1.5"/>
+		<circle data-id="188" data-connected="187_189_192" class="st38" cx="329.125" cy="80.2916641" r="1.5"/>
+		<circle data-id="189" data-connected="27_188_190" class="st38" cx="324.9583435" cy="80.2916641" r="1.5"/>
+		<circle data-id="190" data-connected="28_189_191" class="st38" cx="300.1699829" cy="80.125" r="1.5"/>
+		<circle data-id="191" data-connected="20_190_198" class="st38" cx="289.4583435" cy="80.125" r="1.5"/>
+		<circle data-id="192" data-connected="26_188_193" class="st38" cx="374.6666565" cy="81.625" r="1.5"/>
+		<circle data-id="193" data-connected="25_192_194" class="st38" cx="385.1666565" cy="81.625" r="1.5"/>
+		<circle data-id="194" data-connected="193_195" class="st38" cx="405.1875" cy="81.7916641" r="1.5"/>
+		<circle data-id="195" data-connected="24_194_196_201" class="st38" cx="405.1875" cy="126.0416641" r="1.5"/>
+		<circle data-id="196" data-connected="23_195_197_202" class="st38" cx="405.1875" cy="154.6666718" r="1.5"/>
+		<circle data-id="197" data-connected="185_203_196_201" class="st38" cx="405.1875" cy="169.6666718" r="1.5"/>
+		<circle data-id="198" data-connected="175_191_199" class="st38" cx="280.1875" cy="80.2916641" r="1.5"/>
+		<circle data-id="199" data-connected="95_198" class="st38" cx="280.1875" cy="57" r="1.5"/>
+		<circle data-id="200" data-connected="45_201_208_202" class="st38" cx="441.3749695" cy="126.833168" r="1.5"/>
+		<circle data-id="201" data-connected="200_195_202_197" class="st38" cx="421.8541565" cy="126.9966812" r="1.5"/>
+		<circle data-id="202" data-connected="196_203_201_200" class="st38" cx="421.8541565" cy="154.6666718" r="1.5"/>
+		<circle data-id="203" data-connected="197_202_204" class="st38" cx="421.8541565" cy="169.6666718" r="1.5"/>
+		<circle data-id="204" data-connected="151_203_205" class="st38" cx="421.8541565" cy="260.8333435" r="1.5"/>
+		<circle data-id="205" data-connected="204_206" class="st38" cx="451.6666565" cy="260.8333435" r="1.5"/>
+		<circle data-id="206" data-connected="147_205_149_148" class="st38" cx="464.7647095" cy="260.8333435" r="1.5"/>
+		<circle data-id="207" data-connected="148_149_143_141" class="st38" cx="490" cy="260.8333435" r="1.5"/>
+		<circle data-id="208" data-connected="209_139_200" class="st38" cx="485" cy="128.3331757" r="1.5"/>
+		<circle data-id="209" data-connected="96_208" class="st38" cx="485" cy="65.7916641" r="1.5"/>
+		<circle data-id="210" data-connected="211_136_129" class="st38" cx="635.3873291" cy="129.8958282" r="1.5"/>
+		<circle data-id="211" data-connected="100_210" class="st38" cx="635.3873291" cy="60.5" r="1.5"/>
+		<circle data-id="212" data-connected="79_145_106" class="st38" cx="627" cy="262.0833435" r="1.5"/>
+		<circle data-id="213" data-connected="162_184_158_159" class="st38" cx="151.125" cy="169" r="1.5"/>
+
+	<!-- обводка -->
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="17.07527" y1="49.83333" x2="267.25" y2="49.83333"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="293.16501" y1="48.48137" x2="475" y2="48.48137"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="500.5" y1="48.48137" x2="568" y2="48.48137"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="583.65979" y1="84.54166" x2="624.00037" y2="84.54166"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="622.73535" y1="39.34558" x2="622.73535" y2="86.36275"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="2" stroke-miterlimit="10" x1="567" y1="48.48137" x2="567" y2="113.08366"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="2" stroke-miterlimit="10" x1="583.11035" y1="112.55025" x2="583.11035" y2="82.54166"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="647.28949" y1="39.34558" x2="647.28937" y2="86.36275"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="645.52032" y1="84.29166" x2="765.03125" y2="84.29166"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="763.03937" y1="84.54166" x2="763.03937" y2="116.36539"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="761.03937" y1="118.29166" x2="796.5" y2="118.29166"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="796.5" y1="281.33365" x2="796.5" y2="116.33813"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="754.87463" y1="282.875" x2="798.5" y2="282.875"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="753.86035" y1="281.03738" x2="753.86035" y2="334.86978"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="651.41974" y1="332.875" x2="753.86035" y2="332.875"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-miterlimit="10" x1="651.41974" y1="325.45865" x2="651.41974" y2="334.82013"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="2" stroke-miterlimit="10" x1="634.37653" y1="318.10416" x2="634.37653" y2="329.44812"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="505.16666" y1="328.49667" x2="634.1073" y2="327.54166"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="505.57864" y1="326.29843" x2="505.57864" y2="339.33334"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="449.05951" y1="322.58334" x2="449.05951" y2="339.33334"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="75.5" y1="325.00348" x2="450.19061" y2="324.52597"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="76.66683" y1="331.62466" x2="76.66683" y2="323.24966"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="78.66683" y1="331.01901" x2="9.5" y2="331.25775"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="6" stroke-miterlimit="10" x1="9.36035" y1="226.66667" x2="9.36035" y2="332.95801"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="6" stroke-miterlimit="10" x1="16.07527" y1="47.79167" x2="16.07527" y2="203.83333"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="474.73535" y1="38.58332" x2="474.73535" y2="50.5"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="501.48535" y1="38.58332" x2="501.48535" y2="50.5"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="293.98544" y1="39.34558" x2="293.98535" y2="50.5"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="266.3187" y1="39.66667" x2="266.3187" y2="51.84314"/>
+		<line fill="#F5EFD5" stroke="#F5EFD5" stroke-width="4" stroke-miterlimit="10" x1="5.85762" y1="202.25" x2="19.25" y2="202.25"/>
+
+	<!-- внешние подписи -->
+		<text data-info-id="93" transform="matrix(1 0 0 1 439 348)" font-size="12px">Главный вход</text>
+		<text data-info-id="96" transform="matrix(1 0 0 1 443.81543 35)" font-size="10px">Северный терминал</text>
+		<text data-info-id="95" transform="matrix(1 0 0 1 267 35.66667)" font-size="10px">Кафе</text>
+
+	</g>
+</switch>
+</svg>
+
+
+	<script type="text/javascript" src="path-finder.js"></script>
+	<script type="text/javascript" src="rounder.js"></script>
+	<script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript" src="svg-pan.js"></script>
+
+	<script>
+
+	var nodes = [
+			
+		];	
+
+	var data_blocks;	
+
+	$(function() {
+
+		svgPanZoom('#technopark_map', {
+          zoomEnabled: true,
+          fit: true,
+          center: true
+        });
+
+		$('#technopark_map').css('width', '100%').css('height', $('html').height());
+
+		$('.createPathButton').click(function(){
+			createSelectedPath(pathFinder);
+		});
+
+		$('.selectBoxHeader_icon').click(function(){
+			$(this).toggleClass('openedIcon');
+			$('.selectBox .innerWrapper').toggle();
+		})
+
+		$('.informationBoxHeader_icon').click(function(){
+			$(this).toggleClass('openedInfIcon');
+			$('.informationBox .innerWrapper').toggle();
+		})
+
+		$('.selectBox, .informationBox').draggable()
+
+		$.ajax({
+			type: 'GET',
+			url: 'data.json',
+			dataType: 'json',
+			success: function(response) {
+
+				console.log(response);
+				var options;
+				for(var key in response) {
+					if(response[key].title.toLowerCase().indexOf('unknown') == -1)
+						options += "<option value=" + key + ">" + response[key].title + "</option>";
+				}
+				
+				$('.selectFrom').html(options);
+				// $('.selectTo').html(options);
+
+				// dirty code
+				var optionsEl= $(".selectFrom option"); 
+				optionsEl.detach().sort(function(a, b) {
+					var at = $(a).text().toLowerCase();
+  					var bt = $(b).text().toLowerCase();         
+    				return (at > bt)?1:((at < bt)?-1:0);
+				});
+				optionsEl.appendTo(".selectFrom");     
+				optionsEl.clone().appendTo(".selectTo");     
+
+				$('.selectBox').show(0);
+
+				data_blocks = response;
+
+			},
+			error: function() {
+				alert('Ошибка загрузки данных с сервера.');
+			}
+		})
+
+		$('[data-info-id]').click(function(){
+
+			var informHtml = "",
+				currentBlock = data_blocks[$(this).attr('data-info-id')];
+
+			if(currentBlock.img != "") {
+				informHtml += "<img class='previmg' src='"
+				 + currentBlock.img + "' alt='" + currentBlock.title + "' title='" + currentBlock.title + "'>";	
+			}
+			
+			informHtml += "<h3>" + currentBlock.title + "</h3>";
+			informHtml += "<div style='clear:both'></div>";
+			informHtml += "<div class='another_content'></div>";
+			
+			$('.informationBox .innerWrapper').html(informHtml);
+
+			if(currentBlock.desctiption.indexOf('.html') != -1){
+				$('.another_content').load(currentBlock.desctiption);
+			} else {
+				$('.another_content').html('Подробная информация по этому объекту отсутствует');
+			}			
+
+		});
+
+		$('circle').each(function() {
+
+			var currentNode = {};
+
+			currentNode['id'] = +$(this).attr('data-id');
+			
+			currentNode['cords'] = {
+				x: +$(this).attr('cx'),
+				y: +$(this).attr('cy')
+			};
+			
+			currentNode['connected'] = $(this).attr('data-connected').split('_').map(function(a){return +a});
+			
+			nodes[currentNode['id']] = currentNode;
+		});
+
+		//drawUnionLine(nodes);
+		pathFinder.setNodes(nodes);
+		
+		// checkPaths();
+		
+	})
+
+
+		function createSelectedPath(pathFinder) {
+
+			var fromPoint = $('.selectFrom option:checked').val(),
+				  toPoint = $('.selectTo option:checked').val();
+
+			pathFinder.calcPathFrom(fromPoint);
+			createPath(pathFinder.getPathTo(toPoint));
+
+		}
+
+
+		function drawUnionLine(nodes) {
+
+
+			for(var i = 0; i < nodes.length; i++) {
+
+				if(nodes[i]) {
+					for(var j = 0; j < nodes[i]['connected'].length; j++) {
+
+						if(nodes[nodes[i]['connected'][j]]) {
+							createLine(nodes[i]['cords'], nodes[nodes[i]['connected'][j]]['cords']);
+						}					
+
+					}
+				}
+				
+			}
+
+		}
+
+		function checkPaths() {
+				
+			var pathsLength = [],
+				pathsCnt = [],
+				paths = [];
+
+			for(var i = 0; i < nodes.length; i++) {
+
+				if(nodes[i]) {
+
+					pathFinder.calcPathFrom(i);
+
+					for(var j = 0; j < nodes.length; j++) {
+
+						if(nodes[j]) {
+							
+							if(!pathsCnt[i]){
+							   pathsCnt[i] = 0;
+							}
+
+							if(!pathsCnt[j]){
+							   pathsCnt[j] = 0;
+							}
+
+							pathsCnt[i]++;
+							pathsCnt[j]--;
+
+							pathsLength.push(i + " " + j);
+							console.log(i + " " + j);
+							paths.push(pathFinder.getPathTo(j));
+
+						}
+
+					}
+
+				}
+
+			}
+
+			
+			for(var i = 0; i < paths.length; i++) {
+
+				setTimeout(createPath, i * 1100, paths[i]);
+
+			}	
+			
+			console.log(pathsCnt);
+
+		}
+
+		////////////////////
+
+		function createCircle(cords) {
+
+			var svgNS = "http://www.w3.org/2000/svg";
+
+			var myCircle = document.createElementNS(svgNS,"circle");
+			myCircle.setAttributeNS(null,"id","mycircle");
+			myCircle.setAttributeNS(null,"cx",cords.x);
+			myCircle.setAttributeNS(null,"cy",cords.y);
+			myCircle.setAttributeNS(null,"r",5);
+			myCircle.setAttributeNS(null,"fill","red");
+			myCircle.setAttributeNS(null,"stroke","none");
+
+			$('.svg-pan-zoom_viewport').append(myCircle);
+
+		}
+
+		function createLine (from, to) {
+
+			var svgNS = "http://www.w3.org/2000/svg";
+
+			var line = document.createElementNS(svgNS,"line");
+
+			line.setAttributeNS(null,"x1",from.x);
+			line.setAttributeNS(null,"y1",from.y);
+
+			line.setAttributeNS(null,"x2",to.x);
+			line.setAttributeNS(null,"y2",to.y);
+
+			line.setAttributeNS(null,"stroke","green");
+			
+			$('.svg-pan-zoom_viewport').append(line);
+
+
+		}
+
+		function createText(cords, txt) {
+
+			var svgNS = "http://www.w3.org/2000/svg";
+
+			var text = document.createElementNS(svgNS,"text");
+
+			text.setAttributeNS(null,"x",+cords.x - 10);
+			text.setAttributeNS(null,"y",+cords.y - 10);
+			text.setAttributeNS(null,"font-size","20");
+
+			var textNode = document.createTextNode(txt);
+			text.appendChild(textNode);
+
+			$('.svg-pan-zoom_viewport').append(text);
+
+		}
+
+		function createPath(nd) {
+
+			console.log(nd);
+
+			$("#findedPath").remove();
+
+			var cordsArr = [];
+
+			for(var i = 0; i < nd.length; i++) {
+
+				var cn = nodes[nd[i]].cords;
+
+				cordsArr.push(cn.x + ", " + cn.y);
+
+			}
+			
+			var path = 'M ' + cordsArr.join(' L ');
+
+			path = path.replace(/,/gi,'');
+			// console.log(roundPathCorners(path, 5));
+
+			var svgNS = "http://www.w3.org/2000/svg";
+
+			var newpath = document.createElementNS(svgNS,"path");
+
+			newpath.setAttribute("id", "findedPath");
+			newpath.setAttribute("d", roundPathCorners(path, 5, false));  
+			newpath.setAttribute("stroke", "black");  
+			newpath.setAttribute("stroke-width", 5);  
+			newpath.setAttribute("stroke-linejoin", 'round');  
+			newpath.setAttribute("opacity", 1);  
+			newpath.setAttribute("fill", "none");
+			newpath.setAttribute("stroke-dasharray", newpath.getTotalLength());
+			newpath.setAttribute("stroke-dashoffset", newpath.getTotalLength());
+
+			$('.svg-pan-zoom_viewport').append(newpath);
+			console.log(newpath.getTotalLength());
+			$('.calcDist').html((newpath.getTotalLength() * 0.137931).toFixed(2) + ' м.');
+			// document.getElementById("technopark_map").appendChild(newpath);
+
+		}
+		
+	</script>
+</body>
+</html>

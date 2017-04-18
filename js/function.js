@@ -1298,6 +1298,8 @@ function parseBookInfo(info, cnt){
 function loadFileIframe() {
 	var par = getJSON('auth_inf');	
 	view.$file_box.html('<iframe id="fileFrame" style="width:100%;height:' + document.body.clientHeight + "px" + ';" />');
+	console.dir(par.m1);
+	console.dir(par.m2);
     $('#fileFrame').attr('src', 'https://lir.ugrasu.ru/index_short.php/auth?username=' + par.m1 + '&password=' + par.m2);
     $('#fileFrame').load(function()
     {

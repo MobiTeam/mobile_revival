@@ -1,18 +1,18 @@
-﻿<?php 
-  
+﻿<?php
+
   function serviceping($host, $port, $timeout) //Пингуем сервер
-     {   
+     {
 	    $op = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if (!$op){
-			return 0; 
+			return 0;
 		} //DC is N/A
           else {
             fclose($op); //explicitly close open socket connection
             return 1; //DC is up & running, we can safely connect with ldap_connect
            }
 }
-  
- 
+
+
      function GetWordForm($n, $forms)
       {
           if ($n>0)
@@ -27,9 +27,9 @@
       }
 
   function auth($login, $password, $ad){ // функция авторизации на ldap сервере (логин нужно передавать полный)
-	        
+
 			global $data_user;
-							
+
 			if(($ldap = ldap_connect($ad['server'], $ad['port'])) && serviceping($ad['server'],$ad['port'],1)){
 			ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3); //Включаем LDAP протокол версии 3
 				$bind = @ldap_bind($ldap, $login, $password);
@@ -38,7 +38,7 @@
 					$zn = ldap_get_entries($ldap, $ls);
 					if(isset($zn[0]['cn'][0])){
 						$data_user['FIO'] = $zn[0]['cn'][0];
-          }
+                    }
 					return 1;
 				}
 				else
@@ -47,19 +47,19 @@
 			else {
 	        	$data_user['serverRequest'] = 'LDAP сервер временно недоступен.';
 				return 0;
-			}					
+			}
 	  }
-	  
+
   function normJsonStr($str){
     $str = preg_replace_callback('/\\\u([a-f0-9]{4})/i', create_function('$m', 'return chr(hexdec($m[1])-1072+224);'), $str);
     //return($str);
 	return iconv('cp1251', 'utf-8', $str);
-}	  
+}
 
 function jsonRemoveUnicodeSequences($struct){
    return preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($struct));
 }
-	  
+
 
    function userAutentificate(){
 
@@ -79,15 +79,15 @@ function jsonRemoveUnicodeSequences($struct){
 
         }
 
-   }	   
-		
+   }
+
   function utf8_json_encode($arr){
 			return($result = preg_replace_callback(
 	'/\\\u([0-9a-fA-F]{4})/', create_function('$_m', 'return mb_convert_encoding("&#" . intval($_m[1], 16) . ";", "UTF-8", "HTML-ENTITIES");'),
 	json_encode($arr)));
-		}	
-		
-		
+		}
+
+
 		function json_encode_cyr($str) {
     $arr_replace_utf = array('\u0410', '\u0430', '\u0411', '\u0431', '\u0412', '\u0432',
         '\u0413', '\u0433', '\u0414', '\u0434', '\u0415', '\u0435', '\u0401', '\u0451', '\u0416',
@@ -113,13 +113,13 @@ function jsonRemoveUnicodeSequences($struct){
 	function modifyPost(){
 		foreach($_POST as $key => $value){
 			$_POST[$key] = replaceQuotesOracle($_POST[$key]);
-		}	
+		}
 	}
-	
+
 	function modifyGet(){
 		foreach($_GET as $key => $value){
 			$_GET[$key] = replaceQuotesOracle($_GET[$key]);
-		}	
+		}
 	}
 
     function valParametr($str){
@@ -130,7 +130,7 @@ function jsonRemoveUnicodeSequences($struct){
           "alter", "distinct", "integer",
           "and", "drop", "intersect",
           "any", "into",
-          "as", "else", "is", 
+          "as", "else", "is",
           "asc", "exclusive",
           "audit", "exists", "level",
           "like", "between" , "file", "lock",
@@ -140,9 +140,9 @@ function jsonRemoveUnicodeSequences($struct){
           "column", "graphic", "modify",
           "comment", "group", "compress", "noaudit",
           "connect", "having", "nocompress",
-          "create", "not", "current", "identified", 
+          "create", "not", "current", "identified",
           "nowait", "if", "null",
-          "date", "immediate", "number", 
+          "date", "immediate", "number",
           "dba", "in", "decimal", "increment", "of",
           "offline", "rownum", "uid", "on", "rows",
           "union", "online", "unique", "option", "select",
@@ -155,7 +155,7 @@ function jsonRemoveUnicodeSequences($struct){
 
 
     for($i = 0; $i < count($check_arr); $i++){
-      
+
       if(strrpos(strtolower($str), $check_arr[$i]) !== false){
         return false;
       }
@@ -164,5 +164,5 @@ function jsonRemoveUnicodeSequences($struct){
     return true;
 
   }
-				
+
 ?>
