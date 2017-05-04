@@ -227,12 +227,16 @@ $(document).ready(function() {
 			}
 		}
 		var fData = new FormData($frm[0]);
-		var file = fData.get('p_document_file');
 
-		if (!file || file.size > 5242880) {
-			showTooltip('Файл имеет слишком большой размер. Допускается не более (5 MB).');
-			return false;
+		if (fData.get) {
+			var file = fData.get('p_document_file');
+
+			if (!file || file.size > 5242880) {
+				showTooltip('Файл имеет слишком большой размер. Допускается не более (5 MB).');
+				return false;
+			}
 		}
+		
 
 		fData.append('persons', getJSON('auth_inf').PERSONS);
 

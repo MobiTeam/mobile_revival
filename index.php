@@ -560,6 +560,7 @@
 			<script src="js/switchery.min.js"></script>
 			<script src="js/scrollTo.min.js"></script>
 			<script src="js/jq_min.js"></script>
+			<script src="js/formData.polyfill.js"></script>
 		</body>
 
 		<!-- Yandex.Metrika counter -->
