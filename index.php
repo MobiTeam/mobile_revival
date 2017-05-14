@@ -438,15 +438,15 @@
 							</div>
 						</div>
 
-						<div class="content_box_menuitem contr_shadow authblock" hashtag="lib_info">
+						<!--<div class="content_box_menuitem contr_shadow authblock" hashtag="lib_info">
 
 							<div class="main_lib_icon main_icon_block"></div>
-							<!-- <img src="img/group_new.png" /> -->
+							<img src="img/group_new.png" />
 
 							<div class="content_box_name_item lib_content">
 							  Библиотека
 							</div>
-						</div>
+						</div> -->
 
  						<div class="content_box_menuitem contr_shadow" hashtag="file_info">
 
