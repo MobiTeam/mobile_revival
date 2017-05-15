@@ -321,7 +321,7 @@
 					<div class="about_info_box_text contr_shadow">
 					<div class="authorisation_box_logo" style="margin:16px auto 26px;"></div>
 
-					<p><b>mops.ugrasu.ru</b> <span class='about_span'>(ver 1.0 alpha)</span> - Мобильный образовательный портал студентов Югорского Государственного университета.</p>
+					<p><b>mops.ugrasu.ru</b> <span class='about_span'>(ver 1.0 alpha)</span> - Образовательный портал студентов Югорского Государственного университета.</p>
 					<p>Данный портал создан с целью упрощения доступа студентов к информации из корпоративной сети университета.</p>
 					<p>С помощью данного портала Вы с легкостью можете заполнить портфолио, а также посмотреть расписание занятий, новости с сайта университета,
 					персональную информацию, такую как - список группы, успеваемость, назначение, финансовую информацию и пр.</p>
@@ -332,19 +332,19 @@
 					</p>
 
 					<p style='display:block; border-top:1px dashed grey; padding-top: 5px;'>
-						<span class='about_span'>Разработчики:</span><br>
+<!--						<span class='about_span'>Разработчики:</span><br>
 						Петроченко Владислав - vladonxp@mail.ru <br>
-						Якимчук Александр - viking0607@mail.ru
+						Якимчук Александр - viking0607@mail.ru-->
 
 						<input class="sendInfoButton contr_shadow" type="button" value="Сообщить об ошибке" onclick="showSendingForm()" />
 					</p>
-
+<!--
 					<p style='border-top:1px dashed grey; padding-top: 5px;'><span class='about_span'>Благодарности:</span>
 						<ul style='margin-left:20px;'>
 							<li>Бурлуцкому Владимиру Владимировичу</li>
 							<li>Татаринцеву Ярославу Борисовичу</li>
 							<li>Карпову Дмитрию Викторовичу</li>
-						</ul>
+						</ul>-->
 					</div>
 				</div>
 
