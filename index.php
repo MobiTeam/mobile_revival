@@ -87,7 +87,7 @@
 					<!-- <li class="sidebar_menu_block_menu_item finance_item auth_only" hashtag="finance_inf">Финансы</li> -->
 					<!-- <li class="sidebar_menu_block_menu_item message_item" hashtag="message">Сообщения</li>		 -->
 					<li class="sidebar_menu_block_menu_item guide_item" hashtag="dir_info">Справочник</li>
-					<!-- <li class="sidebar_menu_block_menu_item coffee_item" hashtag="coffe_block">Столовая</li>		 -->
+					<!-- <li class="sidebar_menu_blocabout_appk_menu_item coffee_item" hashtag="coffe_block">Столовая</li>		 -->
 					<li class="sidebar_menu_block_menu_item set_item auth_only settings" hashtag="settings">Настройки</li>
 					<li class="sidebar_menu_block_menu_item about_item" hashtag="about_app">О приложении</li>
 					<li class="sidebar_menu_block_menu_item close_item" hashtag="auth">Сменить пользователя</li>
@@ -523,6 +523,18 @@
 							  Справочник
 							</div>
 						</div>
+
+						<a href="http://webpost.ugrasu.ru" target="_blank">
+							<div class="content_box_menuitem contr_shadow" hashtag="webpost_info">
+
+								<!-- <img src="img/contacts_new.png" /> -->
+								<div class="main_webpost_icon main_icon_block"></div>
+
+								<div class="content_box_name_item webpost_content">
+								  Почта ЮГУ
+								</div>
+							</div>
+						</a>
 
 						<div class="content_box_menuitem contr_shadow" hashtag="about_app">
 

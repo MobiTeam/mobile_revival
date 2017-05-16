@@ -1,13 +1,13 @@
-﻿* { 
-  vertical-align: baseline; 
-  font-weight: inherit; 
-  font-family: inherit; 
-  font-size: 100%; 
-  border: 0 none; 
-  outline: 0; 
-  padding: 0; 
-  margin: 0;  
-} 
+﻿* {
+  vertical-align: baseline;
+  font-weight: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  border: 0 none;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+}
 
 .unselected {
   -moz-user-select: none;
@@ -39,8 +39,8 @@
 html, body{
     height:100%;
 	background:#f5f5f5;
-	font-family: "RobotoLight", sans-serif; 
-} 
+	font-family: "RobotoLight", sans-serif;
+}
 
 b, strong {
 	font-family: "RobotoMedium", sans-serif;
@@ -93,7 +93,7 @@ b, strong {
 	width:100%;
 	background:#5677fc;
 	box-sizing:border-box;
-} 
+}
 
 .header_shadow_box{
 	height: 1px;
@@ -206,7 +206,7 @@ b, strong {
 
 .header_line_content_calendar:active, .header_line_content_settings:active, .header_line_content_search:active, .header_line__content_button:active, .header_line_content_refresh:active, .header_line_content_helper:active{
 	background-color:#3266d5;
-} 
+}
 
 .header_line_addition_menu_item {
 	width:32%;
@@ -227,7 +227,7 @@ b, strong {
 	border-bottom:3px solid white;
 	height:43px;
 	font-family:"RobotoRegular", sans-serif;
-} 
+}
 
 .header_line_addition_wrapper, .header_line_addition_wrapper_guide{
 	/* contr_shadow */
@@ -262,7 +262,7 @@ b, strong {
 
 .header_line_addition_data{
 	line-height:0px;
-	
+
 }
 
 .date_item, .date_item_bt{
@@ -471,7 +471,7 @@ b, strong {
 	border-radius:65px;
 	margin:0 auto;
 	margin-bottom:5px;
-} 
+}
 
 .content_box{
 	width:100%;
@@ -516,7 +516,7 @@ b, strong {
 }
 
 .news_content {
-	background: #445ab1;	
+	background: #445ab1;
 }
 
 .group_content {
@@ -545,6 +545,10 @@ b, strong {
 
 .contacts_content {
 	background: #ff7aa5;
+}
+
+.webpost_content {
+    background: #64B5F6;
 }
 
 .app_info {
@@ -605,7 +609,7 @@ b, strong {
 
 .content_box_itemwrapper{
 	text-align:center;
-	font-family:"RobotoRegular", sans-serif; 
+	font-family:"RobotoRegular", sans-serif;
 	margin:8px;
 	margin-top:20px;
 }
@@ -622,7 +626,7 @@ b, strong {
 				/* url('../img/preloader_2.jpg') no-repeat bottom center, */
 				#058ae6;
 	font-size:26px;
-	font-family:"RobotoMedium", sans-serif; 
+	font-family:"RobotoMedium", sans-serif;
 	color:rgba(255,255,255,0.85);
 	padding-top:50px;
 	text-align:center;
@@ -639,7 +643,7 @@ b, strong {
 	background:url('../img/pre_animation.gif') no-repeat center center,
 	           black;
 	position:fixed;
-	
+
 }
 
 .menuoverlay{
@@ -654,13 +658,13 @@ b, strong {
 }
 
 .timetable_box{
-	margin:10px 15px 0px 15px; 
+	margin:10px 15px 0px 15px;
 	display:none;
 	padding-top:10px;
 }
 
 .timetable_box_info{
-	background:#FFFFE7;	
+	background:#FFFFE7;
 	padding:7px;
 	border-radius:3px;
 	display:none;
@@ -674,7 +678,7 @@ b, strong {
 }
 
 .person_box{
-	margin:12px; 
+	margin:12px;
 	display:none;
 }
 
@@ -698,7 +702,7 @@ b, strong {
 }
 
 .news_box_details{
-	margin:21px 15px 10px 15px; 
+	margin:21px 15px 10px 15px;
 	display:none;
 	background:white;
 	padding:10px;
@@ -777,7 +781,7 @@ b, strong {
 	border-radius:3px;
 	font-size:14px;
 	padding:5px;
-	font-family:"RobotoMedium", sans-serif; 
+	font-family:"RobotoMedium", sans-serif;
 	text-align:center;
 	left:50%;
 	box-sizing:border-box;
@@ -839,7 +843,7 @@ b, strong {
 }
 
 .sidebar_menu_block_menu_item{
-	list-style-type:none; 
+	list-style-type:none;
 	box-sizing:border-box;
 	height:48px;
 	width:100%;
@@ -892,30 +896,30 @@ b, strong {
 }
 
 .group_item{
-	background:url('../img/new_icon/mini_icon/group.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/group.png') no-repeat left center;
 }
 
 .persinf_item{
-	background:url('../img/new_icon/mini_icon/personal.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/personal.png') no-repeat left center;
 }
 
 .finance_item{
-	background:url('../img/new_icon/mini_icon/finance.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/finance.png') no-repeat left center;
 }
 
 .message_item{
-	background:url('../img/new_icon/mini_icon/message.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/message.png') no-repeat left center;
 }
 
 .guide_item{
-	background:url('../img/new_icon/mini_icon/guide.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/guide.png') no-repeat left center;
 }
 
 .coffee_item{
-	background:url('../img/new_icon/mini_icon/coffee.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/coffee.png') no-repeat left center;
 }
 .about_item{
-	background:url('../img/new_icon/mini_icon/info.png') no-repeat left center;	
+	background:url('../img/new_icon/mini_icon/info.png') no-repeat left center;
 }
 
 
@@ -965,7 +969,7 @@ b, strong {
 }
 
 .timetable_fio{
-	
+
 }
 
 .full_sentense{
@@ -1033,7 +1037,7 @@ b, strong {
 	background:#DCDCDC;
 	margin:5px auto 0px;
 	color:#808080;
-	opacity:0.6;	
+	opacity:0.6;
 }
 
 .hide_information_button:active{
@@ -1071,12 +1075,12 @@ b, strong {
 	/*max-width:600px;*/
 	font-size:16px;
 	padding:5px;
-	
+
 }
 
 .settings_box_inputs_item{
 	border-bottom:1px solid #8C8C8C;
-	padding:5px;	
+	padding:5px;
 }
 
 .settings_box_inputs_item_text{
@@ -1141,7 +1145,7 @@ b, strong {
 	padding-bottom: 5px;
 	font-size: 18px;
 	border-bottom: 2px solid grey;
-	
+
 }
 
 .group_student_line {
@@ -1504,7 +1508,7 @@ b, strong {
 .menu_item td {
 	padding: 10px;
 	border-bottom: 1px dashed grey;
-	
+
 }
 
 .menu_title_coffe {
@@ -1516,7 +1520,7 @@ b, strong {
 }
 
 .info_tr td{
-	padding: 10px; 
+	padding: 10px;
 	font-size: 14px;
 	border-bottom: 1px dashed grey;
 	color: grey;
@@ -1642,6 +1646,10 @@ b, strong {
 
 .main_directory_icon {
 	background: url('../img/directory_hi_icon.png') no-repeat center center;
+}
+
+.main_webpost_icon {
+	background: url('../img/webpost_icon.png') no-repeat center center;
 }
 
 .main_coffe_icon {
@@ -1831,7 +1839,7 @@ b, strong {
 
 .informationCity {
 	margin: 5px;
-}	
+}
 
 .default_query_inp, .formular_num_inp, .user_mail, .user_phone {
 	border: 1px solid #E6E6E6;
@@ -1852,8 +1860,8 @@ b, strong {
 }
 
 .alert_message {
-	display:block; 
-	border-top:1px dashed grey; 
+	display:block;
+	border-top:1px dashed grey;
 	padding: 12px;
 }
 
@@ -2090,4 +2098,4 @@ If you like this solution, you might also want to check out the 1.0 version:
 
 .p-file-delete-btn:active {
 	background: #ff3434;
-} 
+}

@@ -172,6 +172,11 @@
 		background-size: 64px 64px;
 	}
 
+	.main_webpost_icon {
+		background: url('../img/webpost_icon@2x.png') no-repeat center center;
+		background-size: 64px 64px;
+	}
+
 	.main_coffe_icon {
 		background: url('../img/coffe_hi_icon@2x.png') no-repeat center center;
 		background-size: 64px 64px;
