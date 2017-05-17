@@ -262,6 +262,17 @@ function clickByActualDate(){
 // создание каркаса расписания
 /////////////////////////////////
 
+function printTeacherPost(post) {
+	
+	if (post == null) {
+		return '';
+	}
+
+	return '<a class="timetable-main-link" href="mailto:' + post + '">\
+				' + post + '\
+			</a>';
+}
+
 function createTimetableHTML(date, timetable, showEmptyFields){
 	
 	showEmptyFields = $('.item_ch_2').prop('checked');
@@ -316,7 +327,7 @@ function createTimetableHTML(date, timetable, showEmptyFields){
 								if((item.KORP).toLowerCase() == 'сок'){
 																	
 									timetableHTML += '<span class="timetable_place"><span class="vid_color">' + (item.VID).toLowerCase() + '</span> ' + item.AUD + '/' + item.KORP + '</span> <br> \
-												<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span><br>';
+												<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span>' + printTeacherPost(item.TEACH_MAIL) + '<br>';
 									counter++;
 									
 								}
@@ -358,7 +369,7 @@ function createTimetableHTML(date, timetable, showEmptyFields){
 											<td class="' + getColorTypeLesson(item.VID) + '_td_tag" >\
 											' + subgroup + '<span class="timetable_disp">' + item.DISCIPLINE + '</span><br>\
 											<span class="timetable_place"><span class="vid_color">' + (item.VID).toLowerCase() + '</span> ' + item.AUD + '/' + item.KORP + (notNameQuery == false ? ' - гр ' + item.GR_NUM : '') + '</span><br>\
-											<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span><br>\
+											<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span>' + printTeacherPost(item.TEACH_MAIL) + '<br>\
 											</td>\
 										  </tr>';
 							twoLessonsInOneTime = false;			  
@@ -377,7 +388,7 @@ function createTimetableHTML(date, timetable, showEmptyFields){
 											<td class="' + getColorTypeLesson(item.VID) + '_td_tag">\
 											' + subgroup + '<span class="timetable_disp">' + item.DISCIPLINE + '</span><br>\
 											<span class="timetable_place"><span class="vid_color">' + (item.VID).toLowerCase() + '</span> ' + item.AUD + '/' + item.KORP + (notNameQuery == false ? ' - гр ' + item.GR_NUM : '') + '</span><br>\
-											<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span><br>\
+											<span class="timetable_fio"><span class="found_by_sel_text">' + item.TEAC_FIO + '</span></span>' + printTeacherPost(item.TEACH_MAIL) + '<br>\
 											</td>\
 										  </tr>';						
 						}
