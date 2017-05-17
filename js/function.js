@@ -957,8 +957,8 @@ function showGroupInfo(){
 		var group = groupsStud[key];
 		htmlCode += "<span class='group_name_header'>Группа: " + group.number + "</span>";
 		for (var i = 0; i < group.fio.length; i++) {
-
-			htmlCode += "<div class='group_student_line " + (group.sex[i] == "М" ? "man_student" : "girl_student" ) + "'>" + (i + 1) + ") " + group.fio[i] + "</div>";
+			var studentMail = !(group.mail[i] == null) ? ' ( <a href="mailto:'+ group.mail[i] +'" >'+ group.mail[i] +'</a> ) ' : '';
+			htmlCode += "<div class='group_student_line " + (group.sex[i] == "М" ? "man_student" : "girl_student" ) + "'>" + (i + 1) + ") " + group.fio[i] + studentMail +"</div>";
 		};
 	}
 
@@ -1296,7 +1296,7 @@ function parseBookInfo(info, cnt){
 
 
 function loadFileIframe() {
-	var par = getJSON('auth_inf');	
+	var par = getJSON('auth_inf');
 	view.$file_box.html('<iframe id="fileFrame" style="width:100%;height:' + document.body.clientHeight + "px" + ';" />');
 	console.dir(par.m1);
 	console.dir(par.m2);

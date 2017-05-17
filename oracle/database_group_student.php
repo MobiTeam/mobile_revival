@@ -2,7 +2,7 @@
 
 //ПОЛУЧЕНИЕ ГРУППЫ СТУДЕНТА (UPDATE 16.05.2016)
 
-	session_start(); 
+	session_start();
 	require_once('../auth/ad_functions.php');
 	modifyPost();
 	userAutentificate();
@@ -11,20 +11,21 @@
 	} else {
 		$GRUP = $_POST['groups'];
 	}
-	
+
 	require('database_connect_PDO.php');
 
 	$group_json = array();
-	for ($i=0; $i < count($GRUP); $i++) { 
- 		
+	for ($i=0; $i < count($GRUP); $i++) {
+
 		 //Студенты в группе
 
-		$GRUP[$i]="%$GRUP[$i]%";	
+		$GRUP[$i]="%$GRUP[$i]%";
 
-		$query=$conn->prepare("Select 
+		$query=$conn->prepare("Select
 							  cast(FFIO AS VARCHAR2(100)) as FFIO,
 							  cast(FSEX AS VARCHAR2(5)) as FSEX ,
-							  cast(FSDEPCODE AS VARCHAR(100)) as FSDEPCODE 
+							  cast(FSDEPCODE AS VARCHAR(100)) as FSDEPCODE,
+							  cast(EMAIL AS VARCHAR(256)) as EMAIL
 							  from mv_stud_group
 		where FSDEPCODE LIKE :GRUP
 		order by FFIO");
@@ -38,17 +39,19 @@
  			$group[$count]=$row['FFIO'];
  			$number_group=$row['FSDEPCODE'];
  			$sex[$count]=$row['FSEX'];
+ 			$email[$count] = $row['EMAIL'];
 			$count++;
-		} 
+		}
 
 		$group_json[$i] = array(
-			"fio" => $group, 
+			"fio" => $group,
 			"sex"=> $sex,
+			"mail"=> $email,
 			"number" => $number_group
 		);
 
-	}			
+	}
 		print_r(json_encode($group_json,JSON_UNESCAPED_UNICODE));
 
-	 @$conn=null;	
+	 @$conn=null;
 ?>
